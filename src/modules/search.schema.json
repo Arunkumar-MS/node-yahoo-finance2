@@ -815,6 +815,9 @@
               },
               {
                 "$ref": "#/definitions/SearchQuoteYahooFuture"
+              },
+              {
+                "$ref": "#/definitions/SearchQuoteYahooMoneyMarket"
               }
             ]
           }
