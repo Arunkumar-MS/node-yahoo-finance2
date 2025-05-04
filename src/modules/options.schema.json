@@ -2888,6 +2888,12 @@
         },
         "beta": {
           "type": "number"
+        },
+        "dividendRate": {
+          "type": "number"
+        },
+        "dividendYield": {
+          "type": "number"
         }
       },
       "required": [

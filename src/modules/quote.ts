@@ -193,6 +193,8 @@ export interface QuoteOption extends QuoteBase {
 export interface QuoteMutualfund extends QuoteBase {
   quoteType: "MUTUALFUND";
   hasPrePostMarketData?: boolean; // false
+  dividendRate?: number; // 0.96
+  dividendYield?: number; // 0.51
 }
 
 export type Quote =
