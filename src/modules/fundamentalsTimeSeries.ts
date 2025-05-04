@@ -838,7 +838,7 @@ export const processResponse = function (response: any): any {
     let TYPE = "UNKNOWN - please report this issue";
     if (keyedByTimestamp[k].netDebt) {
       TYPE = "BALANCE_SHEET";
-    } else if (keyedByTimestamp[k].issuanceOfDebt) {
+    } else if (keyedByTimestamp[k].operatingCashFlow) {
       TYPE = "CASH_FLOW";
     } else if (keyedByTimestamp[k].netIncome) {
       TYPE = "FINANCIALS";
