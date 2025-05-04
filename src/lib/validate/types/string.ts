@@ -96,6 +96,17 @@ export const string: Validator = function string(
     return false;
   }
 
+  if (schema.const && input !== schema.const) {
+    errors.push({
+      instancePath,
+      schemaPath,
+      message: "Invalid const value",
+      data: input,
+      params: { const: schema.const },
+    });
+    return false;
+  }
+
   if (schema.enum && !schema.enum.includes(input)) {
     errors.push({
       instancePath,
