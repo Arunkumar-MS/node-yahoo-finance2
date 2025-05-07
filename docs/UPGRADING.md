@@ -10,7 +10,7 @@ BREAKING CHANGES and required changes you'll need to make to your code.
 ## Upgrading from v2 to v3 (2025)
 
 **v3 is still under active development**, however, it has been published and you
-can install it with the `@next` tag from npm, e.g.
+can install it with the `@next-major` tag from npm, e.g.
 `npm install yahoo-finance2@next-major`, or even
 `npm install yahoo-finance2@3`.  Yes, the project is called "yahoo-finance2"
 and the version is "3".  **These docs are not yet complete**.
@@ -40,7 +40,7 @@ Other notable changes:
 There were significant changes to the development environment, please see the
 [CONTRIBUTING.md](../CONTRIBUTING.md) file for more details.
 
-````
+
 
 <a name="from-v1-to-v2"></a>
 ## Upgrading from yahoo-finance v1 to v2 (2021)
