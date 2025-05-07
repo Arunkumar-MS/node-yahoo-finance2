@@ -197,6 +197,12 @@ export interface QuoteMutualfund extends QuoteBase {
   dividendYield?: number; // 0.51
 }
 
+export interface QuoteMoneyMarket extends QuoteBase {
+  quoteType: "MONEYMARKET";
+  typeDisp: "MoneyMarket";
+  netAssets?: number; // 1
+}
+
 export type Quote =
   | QuoteCryptoCurrency
   | QuoteCurrency
@@ -205,7 +211,8 @@ export type Quote =
   | QuoteFuture
   | QuoteIndex
   | QuoteMutualfund
-  | QuoteOption;
+  | QuoteOption
+  | QuoteMoneyMarket;
 
 export type QuoteField = keyof Quote;
 

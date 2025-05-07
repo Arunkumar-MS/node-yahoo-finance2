@@ -26,6 +26,7 @@ const commonSymbols = [
   "^VXAPL", // Index (#248)
   "GC=F", // Futures (#449),
   // "APS.AX", // .AX (#461); chart, historical, insights, recommendations, quoteSummary // Delisted
+  "SWVXX", // Money Market (#905)
 ];
 
 interface testSymbolsOptions {

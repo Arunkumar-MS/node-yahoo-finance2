@@ -2951,6 +2951,9 @@
         },
         "openInterest": {
           "type": "number"
+        },
+        "averageMaturity": {
+          "type": "number"
         }
       },
       "required": [

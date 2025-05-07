@@ -920,6 +920,9 @@ export interface SummaryDetail {
   // futures
   expireDate?: Date; // 1656374400,
   openInterest?: number; // 444411,
+
+  // Money Markets, e.g. SWVXX (#905)
+  averageMaturity?: number;
 }
 
 export interface SummaryProfile {
