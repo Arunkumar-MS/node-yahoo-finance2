@@ -34,6 +34,7 @@ describe("quote", () => {
       "LDO.MI", // additionalProperty: underlyingSymbol (#363)
       "ZRC-USD", // Low cap crypto (#403)
       "SOHO", // "openInterest" prop (#445)
+      "VWRL.L", // ETF with no dividendYield, expenseRatio (#914)
     ],
   });
 

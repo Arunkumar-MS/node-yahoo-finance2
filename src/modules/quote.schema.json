@@ -1418,7 +1418,6 @@
         }
       },
       "required": [
-        "dividendYield",
         "esgPopulated",
         "exchange",
         "exchangeDataDelayedBy",
@@ -1430,7 +1429,6 @@
         "market",
         "marketState",
         "netAssets",
-        "netExpenseRatio",
         "priceHint",
         "quoteType",
         "region",
