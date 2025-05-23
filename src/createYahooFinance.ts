@@ -57,6 +57,7 @@ class YahooFinance {
       }
     }
 
+    // deno-coverage-ignore-start
     // @ts-ignore: relevant for ts-json-schema-generator
     this._logObj = Deno.stdout.isTerminal()
       // deno-lint-ignore no-explicit-any
@@ -64,6 +65,7 @@ class YahooFinance {
         this._opts.logger!.dir(obj, { depth: opts?.depth ?? 4, colors: true })
       // deno-lint-ignore no-explicit-any
       : (obj: any) => this._opts.logger!.info(JSON.stringify(obj, null, 2));
+    // deno-coverage-ignore-stop
   }
 }
 
