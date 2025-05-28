@@ -2137,7 +2137,6 @@
         "expireIsoDate",
         "fullExchangeName",
         "gmtOffSetMilliseconds",
-        "headSymbolAsString",
         "language",
         "market",
         "marketState",

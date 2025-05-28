@@ -170,7 +170,7 @@ export interface QuoteEquity extends QuoteBase {
 
 export interface QuoteFuture extends QuoteBase {
   quoteType: "FUTURE";
-  headSymbolAsString: string; // "GC=F"
+  headSymbolAsString?: string; // "GC=F"
   contractSymbol: boolean; // false
   underlyingExchangeSymbol: string; // "GCM22.CMX"
   expireDate: Date; // 1656374400

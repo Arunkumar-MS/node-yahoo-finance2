@@ -36,6 +36,7 @@ describe("quote", () => {
       "SOHO", // "openInterest" prop (#445)
       "VWRL.L", // ETF with no dividendYield, expenseRatio (#914)
       "ZGLD.SW", // ETF with no netAssets (#916)
+      "B0K25.NYM", // FUTURE with no `headSymbolAsString` (#917)
     ],
   });
 
