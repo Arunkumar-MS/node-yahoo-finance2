@@ -74,7 +74,8 @@ export interface QuoteBase {
   sourceInterval: number; // 15,
   exchangeDataDelayedBy: number; // 0,
   firstTradeDateMilliseconds?: DateInMs; // 917015400000 -> Date
-  priceHint: number; // 2,
+  // Was always present on everything until now except occasionally missing from BTC-USD
+  priceHint?: number; // 2,
   postMarketChangePercent?: number; // 0.093813874,
   postMarketTime?: Date; // 1612573179 -> new Date()
   postMarketPrice?: number; // 544.15,
@@ -139,10 +140,10 @@ export interface QuoteBase {
 
 export interface QuoteCryptoCurrency extends QuoteBase {
   quoteType: "CRYPTOCURRENCY";
-  circulatingSupply: number;
-  fromCurrency: string; // 'BTC'
-  toCurrency: string; // 'USD=X'
-  lastMarket: string; // 'CoinMarketCap'
+  circulatingSupply?: number;
+  fromCurrency?: string; // 'BTC'
+  toCurrency?: string; // 'USD=X'
+  lastMarket?: string; // 'CoinMarketCap'
   coinImageUrl?: string; // 'https://s.yimg.com/uc/fin/img/reports-thumbnails/1.png'
   volume24Hr?: number; // 62631043072
   volumeAllCurrencies?: number; // 62631043072
