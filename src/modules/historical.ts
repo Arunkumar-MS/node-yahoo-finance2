@@ -6,7 +6,6 @@ import type {
 } from "../lib/moduleCommon.ts";
 import type _chart from "./chart.ts";
 import validateAndCoerceTypes from "../lib/validateAndCoerceTypes.ts";
-import { showNotice } from "../lib/notices.ts";
 
 import { getTypedDefinitions } from "../lib/validate/index.ts";
 
@@ -118,7 +117,7 @@ export default async function historical(
   // deno-lint-ignore no-explicit-any
 ): Promise<any> {
   let schemaKey;
-  showNotice("ripHistorical");
+  this._notices.show("ripHistorical");
 
   if (
     !queryOptionsOverrides.events ||

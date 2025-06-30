@@ -2,6 +2,7 @@ import Queue from "./queue.ts";
 
 import type { YahooFinanceOptions } from "./options.ts";
 import type { QueueOptions } from "./queue.ts";
+import type Notices from "./notices.ts";
 
 import errors from "./errors.ts";
 import pkg from "../../deno.json" with { type: "json" };
@@ -25,6 +26,7 @@ interface YahooFinanceFetchThis {
   [key: string]: any;
   _env: YahooFinanceFetchThisEnv;
   _opts: YahooFinanceOptions;
+  _notices: Notices;
 }
 
 interface YahooFinanceFetchModuleOptions {
@@ -107,6 +109,7 @@ async function yahooFinanceFetch(
       fetchFunc,
       fetchOptionsBase,
       this._opts.logger,
+      this._notices,
     );
     if (crumb) params.crumb = crumb;
   }

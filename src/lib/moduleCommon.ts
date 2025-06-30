@@ -27,4 +27,5 @@ export interface ModuleThis {
   // deno-lint-ignore no-explicit-any
   _moduleExec: any;
   // _moduleExec: typeof ModuleExec;
+  // _notices: Notices;
 }

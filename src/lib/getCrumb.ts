@@ -2,7 +2,7 @@ import type { ExtendedCookieJar } from "./cookieJar.ts";
 import pkg from "../../deno.json" with { type: "json" };
 import type { Logger } from "./options.ts";
 import { Cookie } from "tough-cookie";
-import { showNotice } from "./notices.ts";
+import type Notices from "./notices.ts";
 
 type Fetch = typeof fetch;
 const CONFIG_FAKE_URL = "http://config.yf2/";
@@ -357,10 +357,11 @@ export default function getCrumb(
   fetch: Fetch,
   fetchOptionsBase: CrumbOptions,
   logger: Logger,
+  notices: Notices,
   url = "https://finance.yahoo.com/quote/AAPL",
   __getCrumb = _getCrumb,
 ) {
-  showNotice("yahooSurvey");
+  notices.show("yahooSurvey");
 
   if (!promise) {
     promise = __getCrumb(cookieJar, fetch, fetchOptionsBase, logger, url);

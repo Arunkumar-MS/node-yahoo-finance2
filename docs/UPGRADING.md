@@ -24,9 +24,13 @@ diff:
 ```diff
 - import yahooFinance from "yahoo-finance2";
 - yahooFinance.setGlobalConfig(options); // optional
+- yahooFinance.suppressNotices["yahooSurvey"]; // optional
 
 + import YahooFinance from "yahoo-finance2";
-+ const yahooFinance = new YahooFinance(/* options */);
++ const yahooFinance = new YahooFinance({
++   ...options, // optional
++   suppressNotices: ["yahooSurvey"], // optional
++ });
 ```
 
 Other notable changes:

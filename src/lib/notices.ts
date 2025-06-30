@@ -1,15 +1,14 @@
-import options from "./options.ts";
-const logger = options.logger || console;
+import type { YahooFinance } from "../createYahooFinance.ts";
+import type { Logger } from "./options.ts";
 
 type Notice = {
   id: string;
   text: string;
-  level?: keyof typeof logger;
+  level?: keyof Logger;
   onceOnly?: boolean;
-  suppress?: boolean;
 };
 
-const notices: Record<string, Notice> = {
+const notices = {
   yahooSurvey: {
     id: "yahooSurvey",
     text:
@@ -28,28 +27,47 @@ const notices: Record<string, Notice> = {
     level: "warn",
     onceOnly: true,
   },
-};
+} as const satisfies Record<string, Notice>;
 
-export function showNotice(id: keyof typeof notices) {
-  const n = notices[id];
-  if (!n) throw new Error(`Unknown notice id: ${id}`);
+export type NOTICE_IDS = keyof typeof notices;
 
-  if (n.suppress) return;
-  if (n.onceOnly) n.suppress = true;
+export default class Notices {
+  _yahooFinance: YahooFinance;
+  _suppressed: Set<NOTICE_IDS>;
 
-  const text = n.text +
-    (n.onceOnly ? "  This will only be shown once, but you" : "You") +
-    " can suppress this message in future with `yahooFinance.suppressNotices(['" +
-    id +
-    "'])`.";
-  const level = n.level || "info";
-  logger[level](text);
-}
+  constructor(yahooFinance: YahooFinance) {
+    this._yahooFinance = yahooFinance;
 
-export function suppressNotices(noticeIds: (keyof typeof notices)[]) {
-  noticeIds.forEach((id) => {
+    if (yahooFinance._opts.suppressNotices) {
+      this._suppressed = new Set(yahooFinance._opts.suppressNotices);
+    } else {
+      this._suppressed = new Set();
+    }
+  }
+
+  show(id: NOTICE_IDS) {
     const n = notices[id];
-    if (!n) logger.error(`Unknown notice id: ${id}`);
-    n.suppress = true;
-  });
+    if (!n) throw new Error(`Unknown notice id: ${id}`);
+
+    if (this._suppressed.has(id)) return;
+    if (n.onceOnly) this._suppressed.add(id);
+
+    const text = n.text +
+      (n.onceOnly ? "  This will only be shown once, but you" : "You") +
+      " can suppress this message in future with `new YahooFinance({ suppressNotices: ['" +
+      id +
+      "'] })`.";
+    const level = ("level" in n && n.level) || "info";
+    this._yahooFinance._opts.logger![level](text);
+  }
+
+  suppress(noticeIds: NOTICE_IDS[]) {
+    noticeIds.forEach((id) => {
+      const n = notices[id];
+      if (!n) {
+        this._yahooFinance._opts.logger!.error(`Unknown notice id: ${id}`);
+      }
+      this._suppressed.add(id);
+    });
+  }
 }
