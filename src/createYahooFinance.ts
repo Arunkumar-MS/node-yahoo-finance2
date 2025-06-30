@@ -12,7 +12,7 @@ export class YahooFinance {
   _env: {
     URLSearchParams: typeof URLSearchParams;
     fetch: typeof fetch;
-    fetchDevel?: () => Promise<typeof fetch>;
+    fetchDevel?: () => typeof fetch;
   };
   _logObj: (obj: unknown, opts?: { depth?: number }) => void;
 
@@ -23,8 +23,12 @@ export class YahooFinance {
     this._env = {
       URLSearchParams,
       fetch,
-      async fetchDevel() {
-        const { default: fetchCache } = await import("../tests/fetchCache.ts");
+      fetchDevel: () => {
+        // @ts-expect-error: later
+        const fetchCache = this.fetchCache;
+        if (!fetchCache) {
+          throw new Error("`fetchDevel()` called, but `fetchCache` not set");
+        }
 
         function fetchDevel(
           input: Parameters<typeof fetch>[0],

@@ -71,7 +71,8 @@ export function createTestYahooFinance<
   return createYahooFinance({
     _allowAdditionalProps: false,
     _opts: { suppressNotices: ["yahooSurvey"] },
-    ...opts
+    ...opts,
+    modules: { ...opts.modules, fetchCache },
   });
 }
 
