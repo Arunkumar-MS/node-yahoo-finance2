@@ -210,6 +210,79 @@ export default function validateAndCoerce(
       schemaPath!, // ! because of "if null" check above
     );
   */
+  } else if (schema.oneOf) {
+    if (!("discriminator" in schema)) {
+      throw new Error("oneOf without discriminator not supported yet");
+    }
+
+    const discriminator = (schema.discriminator as { propertyName: string })
+      ?.propertyName;
+
+    const allErrors: ValidationError[] = [];
+    let _errors: ValidationError[] = [];
+    /// Since yahooFinanceType can mutate, we need to save unmodified state.
+    const serializedInput = JSON.stringify(input);
+    let i = 0;
+    for (const subSchema of schema.oneOf as JSONSchema[]) {
+      const subSchemaPath = subSchema.$ref ||
+        schemaPath + "/oneOf/" + (i++).toString();
+
+      _errors = [];
+      const _subSchema =
+        schemaFromSchemaOrSchemaKey(subSchema, ctx.definitions)[0];
+
+      if (_subSchema.properties?.hasOwnProperty(discriminator)) {
+        validateAndCoerce(
+          input,
+          subSchema,
+          ctx,
+          _errors,
+          instancePath,
+          dataCtx,
+          subSchemaPath,
+        );
+      } else {
+        _errors.push({
+          instancePath,
+          schemaPath: subSchemaPath,
+          message: `Missing discriminator field "${discriminator}" in schema`,
+          data: input,
+        });
+      }
+      if (!_errors.length) break;
+
+      if (_errors.some((error) => error.instancePath === "/" + discriminator)) {
+        // For now, let's exclude these errors
+        // allErrors.push(..._errors);
+
+        // It would be better to handle this at a later stage, but for now, the main
+        // reason we're doing this is to make the errors easier to read so all we
+        // really care about is not pushing superfluous errors. XXX
+      } else {
+        allErrors.push(..._errors);
+      }
+
+      if (dataCtx?.parentData) {
+        input = serializedInput === undefined
+          ? undefined
+          : JSON.parse(serializedInput);
+        // @ts-ignore: it's ok
+        dataCtx.parentData[dataCtx.parentDataProperty] = input;
+      }
+    }
+    if (_errors.length) {
+      errors.push({
+        instancePath,
+        schemaPath: schemaPath!, // ! because of "if null" check above
+        message: "should match some schema in oneOf",
+        params: { discriminator },
+        data: input,
+        // schema,
+        subErrors: allErrors,
+      });
+      // return false;
+      return errors;
+    }
   } else {
     if (schema.type === undefined) {
       // This is actually a no-op.  With schema of {}, accept anything and everything.

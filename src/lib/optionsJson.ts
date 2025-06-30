@@ -6,11 +6,15 @@
 // TODO, keep defaults there too?
 import type { ValidationOptions } from "./validateAndCoerceTypes.ts";
 import type { QueueOptions } from "./queue.ts";
+import type { NOTICE_IDS } from "./notices.ts";
 
 export interface YahooFinanceOptions {
   YF_QUERY_HOST?: string;
-  // cookieJar?: ExtendedCookieJar;
   queue?: QueueOptions;
   validation?: ValidationOptions;
+  /** Optional array of notice ids to suppress, e.g. ["yahooSurvey"] */
+  suppressNotices?: NOTICE_IDS[];
+  // The following are added back in options.ts to avoid json-schema
+  // cookieJar?: ExtendedCookieJar;
   // logger?: Logger;
 }

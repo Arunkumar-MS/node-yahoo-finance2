@@ -1,11 +1,13 @@
 import defaultOptions, { type YahooFinanceOptions } from "./lib/options.ts";
 import yahooFinanceFetch from "./lib/yahooFinanceFetch.ts";
 import moduleExec from "./lib/moduleExec.ts";
+import Notices from "./lib/notices.ts";
 
-class YahooFinance {
+export class YahooFinance {
   _opts: YahooFinanceOptions;
   _fetch: typeof yahooFinanceFetch;
   _moduleExec: typeof moduleExec;
+  _notices: Notices;
   // XXX TODO remove
   _env: {
     URLSearchParams: typeof URLSearchParams;
@@ -15,8 +17,6 @@ class YahooFinance {
   _logObj: (obj: unknown, opts?: { depth?: number }) => void;
 
   constructor(options?: YahooFinanceOptions) {
-    /// XXX TODO mergeoptions from setGlobalConfig
-    this._opts = { ...defaultOptions, ...options };
     this._fetch = yahooFinanceFetch;
     this._moduleExec = moduleExec;
     // XXX TODO remove
@@ -49,13 +49,23 @@ class YahooFinance {
 
     if ("_createOpts" in this) {
       const createOpts = this._createOpts as Record<string, unknown>;
-      if (createOpts) {
-        if ("_allowAdditionalProps" in createOpts) {
-          if (!this._opts.validation) this._opts.validation = {};
-          this._opts.validation.allowAdditionalProps = false;
-        }
+      /// XXX TODO mergeoptions from setGlobalConfig
+      this._opts = {
+        ...defaultOptions,
+        ...(createOpts["_opts"] as YahooFinanceOptions),
+        ...options,
+      };
+      if ("_allowAdditionalProps" in createOpts) {
+        if (!this._opts.validation) this._opts.validation = {};
+        this._opts.validation.allowAdditionalProps = false;
       }
+    } else {
+      /// XXX TODO mergeoptions from setGlobalConfig
+      this._opts = { ...defaultOptions, ...options };
     }
+
+    // The following rely on this._opts being set
+    this._notices = new Notices(this);
 
     // deno-coverage-ignore-start
     // @ts-ignore: relevant for ts-json-schema-generator
@@ -74,6 +84,7 @@ type ModuleMethod = (...args: any[]) => any;
 
 interface CreateYahooFinanceOptions {
   modules: Record<string, ModuleMethod>;
+  _opts?: YahooFinanceOptions;
 }
 
 type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =

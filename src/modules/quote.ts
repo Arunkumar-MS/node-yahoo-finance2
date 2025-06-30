@@ -204,6 +204,9 @@ export interface QuoteMoneyMarket extends QuoteBase {
   netAssets?: number; // 1
 }
 
+/**
+ * @discriminator quoteType
+ */
 export type Quote =
   | QuoteCryptoCurrency
   | QuoteCurrency

@@ -7,7 +7,6 @@ import fetchCache, { fetchCacheSetup } from "./fetchCache.ts";
 
 import testSymbols from "./testSymbols.ts";
 import createYahooFinance from "../src/createYahooFinance.ts";
-import { suppressNotices } from "../src/lib/notices.ts";
 
 export const PERFORM_FAKE_TESTS = Deno.env.get("FETCH_DEVEL") !== "nocache";
 
@@ -69,10 +68,11 @@ export function createTestYahooFinance<
 >(
   opts: T,
 ): ReturnType<typeof createYahooFinance<T>> {
-  // Note: currently these are global and can't be undone without reloading deno.
-  suppressNotices(["yahooSurvey"]);
-
-  return createYahooFinance({ _allowAdditionalProps: false, ...opts });
+  return createYahooFinance({
+    _allowAdditionalProps: false,
+    _opts: { suppressNotices: ["yahooSurvey"] },
+    ...opts
+  });
 }
 
 export { testSymbols };

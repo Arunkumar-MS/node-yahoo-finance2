@@ -1,7 +1,7 @@
 import { describe, test as it } from "@std/testing/bdd";
 import { expect } from "@std/expect";
 
-import validateAndCoerce from "./index.ts";
+import validateAndCoerce, { type JSONSchema } from "./index.ts";
 const definitions = {};
 
 function voc(
@@ -107,6 +107,51 @@ describe("validateAndCoerce", () => {
           const errors = voc(data, schema);
           expect(errors).toHaveLength(1);
           expect(errors[0].message).toBe("Expecting date'ish");
+        });
+      });
+
+      describe("discriminator", () => {
+        const schema: JSONSchema = {
+          type: "object" as const,
+          // @ts-ignore: unofficial extension
+          discriminator: { propertyName: "quoteType" },
+          required: ["quoteType"],
+          additionalProperties: true,
+          oneOf: [
+            {
+              type: "object" as const,
+              properties: {
+                quoteType: { type: "string" as const, const: "EQUITY" },
+                EquityOnlyProp: { type: "string" as const, const: "test" },
+              },
+              required: ["quoteType", "EquityOnlyProp"],
+            },
+            {
+              type: "object" as const,
+              properties: {
+                quoteType: { type: "string" as const, const: "ETF" },
+                EtfOnlyProp: { type: "string" as const, const: "test" },
+              },
+              required: ["quoteType", "EtfOnlyProp"],
+            },
+          ],
+        };
+
+        it("passes on correct discriminator", () => {
+          const data = { quoteType: "EQUITY", EquityOnlyProp: "test" };
+          const errors = voc(data, schema);
+          expect(errors).toHaveLength(0);
+        });
+
+        it("only logs errors for correct discriminator", () => {
+          const data = { quoteType: "ETF" }; // missing required EtfOnlyProp
+          const errors = voc(data, schema);
+          expect(errors).toHaveLength(1);
+          expect(errors[0].subErrors).toHaveLength(1);
+          expect(errors[0].subErrors![0]).toMatchObject({
+            message: "Missing required property",
+            data: "EtfOnlyProp",
+          });
         });
       });
     });

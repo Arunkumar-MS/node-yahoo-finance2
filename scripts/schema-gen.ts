@@ -52,6 +52,7 @@ function createSchema(path: string, force = false) {
     path,
     tsconfig: "scripts/schema-tsconfig.json",
     type: "*",
+    discriminatorType: "open-api",
   };
 
   const formatter = createFormatter(
