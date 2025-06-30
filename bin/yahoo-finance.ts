@@ -9,7 +9,7 @@ const cookieJar = new ExtendedCookieJar(new FileCookieStore(cookiePath));
 
 const yahooFinance = new YahooFinance({
   cookieJar,
-  // suppressNotices: ['yahooSurvey'] TODO
+  suppressNotices: ["yahooSurvey"],
 });
 
 const moduleNames = Object.getOwnPropertyNames(YahooFinance.prototype)
