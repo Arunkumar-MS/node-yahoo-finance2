@@ -11,7 +11,7 @@ import { getTypedDefinitions } from "../lib/validate/index.ts";
 import schema from "./screener.schema.json" with { type: "json" };
 const definitions = getTypedDefinitions(schema);
 
-export interface ScreenerResult {
+export interface ScreenerResultBase {
   id: string;
   title: string;
   description: string;
@@ -30,6 +30,135 @@ export interface ScreenerResult {
   isPremium: boolean;
   iconUrl: string;
 }
+
+export interface ScreenerResultAggressiveSmallCaps extends ScreenerResultBase {
+  canonicalName: "AGGRESSIVE_SMALL_CAPS";
+}
+
+export interface ScreenerResultConservativeForeignFunds
+  extends ScreenerResultBase {
+  canonicalName: "CONSERVATIVE_FOREIGN_FUNDS";
+  criteriaMeta: ScreenerCriteriaMeta & {
+    includeFields: (
+      | "fundnetassets"
+      | "sold_proportion"
+      | "annualreportnetexpenseratio"
+      | "performanceratingoverall"
+      | "intradaypricechange"
+      | "bought_proportion"
+      | "fiftytwowkhigh"
+      | "fiftydaymovingavg"
+      | "ticker"
+      | "longname_us_en-us"
+      | "percentchange"
+      | "companyshortname"
+      | "intradayprice"
+      | "annualreturnnavy5"
+      | "day_open_price"
+      | "annualreturnnavy3"
+      | "annualreturnnavy1"
+      | "annualreportgrossexpenseratio"
+      | "twohundreddaymovingavg"
+      | "pe_ttm"
+      | "yield_ttm"
+      | "exchange"
+      | "fiftytwowklow"
+      | "riskratingoverall"
+      | "trailing_ytd_return"
+      | "trailing_3m_return"
+      | "annualreturnnavy1categoryrank"
+      | "categoryname"
+      | "performanceratingoverall"
+      | "exchange"
+      | "riskratingoverall"
+      | "initialinvestment"
+    )[];
+  };
+}
+
+type ScreenerCriteriaFieldDaily =
+  | "change_in_number_of_institutional_holders"
+  | "trading_central_last_close_price_to_fair_value"
+  | "intradaypricechange"
+  | "estimated_revenue_growth"
+  | "intradaymarketcap"
+  | "morningstar_previous_rating"
+  | "fiftytwowkhigh"
+  | "pctheldinst"
+  | "morningstar_last_close_price_to_fair_value"
+  | "shares_bought_by_funds"
+  | "ror_percent"
+  | "morningstar_rating"
+  | "sector"
+  | "peratio.lasttwelvemonths"
+  | "bullish_proportion"
+  | "percent_change_in_number_of_institutional_holders"
+  | "number_of_institutional_sellers"
+  | "morningstar_stewardship"
+  | "lastclosetevebit.lasttwelvemonths"
+  | "percentchange"
+  | "morningstar_economic_moat"
+  | "percent_of_shares_outstanding_bought_by_institutions"
+  | "day_open_price"
+  | "morningstar_rating_change"
+  | "number_of_institutional_holders"
+  | "percent_in_funds_holding"
+  | "exchange"
+  | "percent_of_shares_outstanding_sold_by_institutions"
+  | "dayvolume"
+  | "bearish_proportion"
+  | "morningstar_fair_value"
+  | "sold_proportion"
+  | "industry"
+  | "morningstar_uncertainty"
+  | "shares_sold_by_funds"
+  | "fair_value"
+  | "bought_proportion"
+  | "percent_in_top_ten_holdings"
+  | "avgdailyvol3m"
+  | "last_close_price_to_nnwc_per_share"
+  | "estimated_earnings_growth"
+  | "ticker"
+  | "longname_us_en-us"
+  | "percent_change_in_shares_held_by_funds"
+  | "number_of_institutional_buyers"
+  | "companyshortname"
+  | "intradayprice"
+  | "change_in_shares_held_by_funds"
+  | "indices"
+  | "neutral_proportion"
+  | "latest_holdings_report_date"
+  | "fiftytwowklow"
+  | "value_description"
+  | "average_analyst_rating"
+  | "intradaymarketcap"
+  | "percentchange"
+  | "intradayprice"
+  | "region"
+  | "dayvolume";
+
+export interface ScreenerResultDayGainers extends ScreenerResultBase {
+  canonicalName: "DAY_GAINERS";
+  criteriaMeta: ScreenerCriteriaMeta & {
+    includeFields: ScreenerCriteriaFieldDaily[];
+  };
+}
+
+export interface ScreenerResultDayLosers extends ScreenerResultBase {
+  canonicalName: "DAY_LOSERS";
+  criteriaMeta: ScreenerCriteriaMeta & {
+    includeFields: ScreenerCriteriaFieldDaily[];
+  };
+}
+
+/**
+ * @discriminator canonicalName
+ */
+export type ScreenerResult =
+  | ScreenerResultAggressiveSmallCaps
+  | ScreenerResultConservativeForeignFunds
+  | ScreenerResultDayGainers
+  | ScreenerResultDayLosers;
 
 export interface ScreenerCriteriaMeta {
   size: number;

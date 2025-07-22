@@ -14,7 +14,12 @@ describe("screener", () => {
   setupCache();
 
   // TODO - Add reset of predefined screener responses
-  it.each(["aggressive_small_caps"])(
+  it.each([
+    "aggressive_small_caps",
+    "conservative_foreign_funds",
+    "day_gainers",
+    "day_losers",
+  ])(
     "passes validation for predefined screener '%s'",
     async (predefined_screener) => {
       await yf.screener(
