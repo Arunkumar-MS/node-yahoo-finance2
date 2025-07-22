@@ -1,6 +1,9 @@
 // @ts-ignore: for ts-json-schema-geneartor
 import type { JSONSchema7 } from "json-schema";
-import type { Logger } from "../options.ts";
+
+// Also a problem for ts-json-schema-generator
+// import type { Logger } from "../options.ts";
+
 export type JSONSchema = JSONSchema7; // & { yahooFinanceType?: string };
 import byType from "./types/index.ts";
 
@@ -20,7 +23,9 @@ export type ValidationError = {
 
 export type ValidationCtx = {
   definitions: JSONSchema["definitions"];
-  logger: Logger;
+  // Causing issues with ts-json-schema-generator
+  // logger: Logger;
+  logger: unknown;
   logObj: (obj: unknown, opts?: { depth?: number }) => void;
 };
 
