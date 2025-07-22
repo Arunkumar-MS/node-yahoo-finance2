@@ -1193,7 +1193,14 @@
           "$ref": "#/definitions/ModuleThis"
         },
         "queryOptionsOverrides": {
-          "$ref": "#/definitions/ScreenerOptions"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PredefinedScreenerModules"
+            },
+            {
+              "$ref": "#/definitions/ScreenerOptions"
+            }
+          ]
         },
         "moduleOptions": {
           "$ref": "#/definitions/ModuleOptions"

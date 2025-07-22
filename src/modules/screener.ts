@@ -318,21 +318,25 @@ export interface ScreenerOptions {
 
 export default function screener(
   this: ModuleThis,
-  queryOptionsOverrides?: ScreenerOptions,
+  queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<ScreenerResult>;
 
 export default function screener(
   this: ModuleThis,
-  queryOptionsOverrides?: ScreenerOptions,
+  queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,
   moduleOptions?: ModuleOptionsWithValidateFalse,
 ): Promise<unknown>;
 
 export default function screener(
   this: ModuleThis,
-  queryOptionsOverrides?: ScreenerOptions,
+  queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,
   moduleOptions?: ModuleOptions,
 ): Promise<unknown> {
+  if (typeof queryOptionsOverrides === "string") {
+    queryOptionsOverrides = { scrIds: queryOptionsOverrides };
+  }
+
   return this._moduleExec({
     moduleName: "screener",
     query: {
