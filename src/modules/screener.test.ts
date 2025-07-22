@@ -31,6 +31,19 @@ describe("screener", () => {
     },
   );
 
+  // Test for using just the screener name as an argument w/o options obj
+  it.each(["aggressive_small_caps"])(
+    "passes validation for predefined screener '%s'",
+    async (predefined_screener) => {
+      await yf.screener(
+        predefined_screener,
+        {
+          devel: `screener-${predefined_screener}.json`,
+        },
+      );
+    },
+  );
+
   /* TODO
   if (PERFORM_FAKE_TESTS) {
     it("throws on weird result", () => {
