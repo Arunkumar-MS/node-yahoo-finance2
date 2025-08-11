@@ -17,7 +17,7 @@ interface YahooFinanceFetchThisEnv {
   [key: string]: any;
   // deno-lint-ignore no-explicit-any
   URLSearchParams: (init?: any) => any;
-  fetch: Fetch;
+  fetch: Fetch | null;
   fetchDevel: () => Promise<Fetch>;
 }
 
@@ -31,6 +31,7 @@ interface YahooFinanceFetchThis {
 
 interface YahooFinanceFetchModuleOptions {
   devel?: string | boolean;
+  fetch?: Fetch;
   fetchOptions?: RequestInit;
   queue?: QueueOptions;
 }
@@ -84,11 +85,13 @@ async function yahooFinanceFetch(
   const queue = _queue;
   assertQueueOptions(queue, { ...this._opts.queue, ...moduleOpts.queue });
 
-  const { URLSearchParams, fetch, fetchDevel } = this._env;
+  const { URLSearchParams, fetch: envFetch, fetchDevel } = this._env;
 
   /* istanbul ignore next */
   // no need to force coverage on real network request.
-  const fetchFunc = moduleOpts.devel ? await fetchDevel() : fetch;
+  const fetchFunc = moduleOpts.devel
+    ? await fetchDevel()
+    : moduleOpts.fetch || envFetch || this._opts.fetch || globalThis.fetch;
 
   const fetchOptionsBase = {
     ...moduleOpts.fetchOptions,

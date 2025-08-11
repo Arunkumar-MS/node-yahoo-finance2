@@ -17,6 +17,7 @@ export interface Logger {
 export interface YahooFinanceOptions extends YahooFinanceOptionsJSON {
   cookieJar?: ExtendedCookieJar;
   logger?: Logger;
+  fetch?: typeof fetch;
 }
 
 const options: YahooFinanceOptions = {

@@ -7,6 +7,8 @@ export interface ModuleOptions {
   validateResult?: boolean;
   /** Filename to use for cached result */
   devel?: boolean | string;
+  /** An alternative fetch function to use just for this call */
+  fetch?: typeof fetch;
   /** Any options to pass to fetch() just for this request. */
   fetchOptions?: Parameters<typeof fetch>[1];
 }

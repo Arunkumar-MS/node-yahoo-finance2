@@ -11,7 +11,7 @@ export class YahooFinance {
   // XXX TODO remove
   _env: {
     URLSearchParams: typeof URLSearchParams;
-    fetch: typeof fetch;
+    fetch: typeof fetch | null;
     fetchDevel?: () => typeof fetch;
   };
   _logObj: (obj: unknown, opts?: { depth?: number }) => void;
@@ -22,7 +22,7 @@ export class YahooFinance {
     // XXX TODO remove
     this._env = {
       URLSearchParams,
-      fetch,
+      fetch: null,
       fetchDevel: () => {
         // @ts-expect-error: later
         const fetchCache = this.fetchCache;

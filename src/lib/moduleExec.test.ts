@@ -57,7 +57,10 @@ describe("moduleExec", () => {
     it("does not throw InvalidOptions on invalid options with validateOptions = false", async () => {
       // deno-lint-ignore no-explicit-any
       const rwo = (options: any) =>
-        yf.search("symbol", options, { validateOptions: false });
+        yf.search("symbol", options, {
+          validateOptions: false,
+          devel: "search-invalid-opts.json",
+        });
       await expect(rwo({ invalid: true })).resolves.toBeDefined();
     });
 
