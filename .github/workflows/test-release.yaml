@@ -17,7 +17,7 @@ jobs:
       contents: write # create releases
       issues: write # issue comments and labels
       pull-requests: write # ditto
-      id-token: write # The OIDC ID token is used for authentication with JSR.
+      id-token: write # The OIDC ID token is used for authentication with JSR + codecov
 
     steps:
       - name: Checkout
@@ -28,8 +28,10 @@ jobs:
       - name: Run tests, produce coverage
         run: deno task test --coverage
 
-      - name: Process coverage
-        run: deno coverage --lcov ./coverage > coverage.lcov
+      - name: Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
 
 #      - name: Prepare packages for next step (remove after non-sha release)
 #        run: cd /home/runner/work/_actions/gaelgirodon/ci-badges-action && npm i -D @actions/core @actions/github @actions/glob
