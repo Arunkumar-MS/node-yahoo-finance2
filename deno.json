@@ -33,6 +33,5 @@
     "ts-json-schema-generator": "npm:ts-json-schema-generator@1.5.1"
   },
   "fmt": {
-    "include": ["src/**/*.ts", "bin/**/*.ts", "test/**/*.ts", "scripts/**/*.ts"]
   }
 }
