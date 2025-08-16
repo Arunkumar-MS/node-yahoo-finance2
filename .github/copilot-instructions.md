@@ -1,36 +1,22 @@
 # Yahoo Finance 2 Development Instructions
 
-Yahoo Finance 2 is a TypeScript/Deno library that provides programmatic access to Yahoo Finance data. It runs on Deno for development but builds to NPM packages for distribution. The library includes modules for stock quotes, historical data, financial summaries, search, and more.
+Yahoo Finance 2 is a TypeScript/Deno library that provides programmatic access to Yahoo Finance data. It runs on Deno for development but also builds to NPM packages for distribution. The library includes modules for stock quotes, historical data, financial summaries, search, and more.
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
 ## Working Effectively
 
 ### Environment Setup
-- **PREFERRED**: Use the automated GitHub Actions setup for optimal performance and reliability:
   - Environment is automatically configured via `.github/workflows/copilot-setup-steps.yml`
   - Deno v2.x runtime installed with caching enabled
   - Dependencies pre-installed with optimized caching
   - Node.js v20 with npm/npx caching configured
   - No manual TLS CA store configuration needed
-  
-- **Manual Setup** (if GitHub Actions not available):
-  ```bash
-  # Install Deno runtime
-  wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip
-  unzip deno-x86_64-unknown-linux-gnu.zip
-  chmod +x deno
-  sudo mv deno /usr/local/bin/
-  
-  # Install dependencies (much faster with caching)
-  deno install
-  ```
 
 ### Optimized Development Process
-- **Dependencies**: With GitHub Actions setup, dependencies install in ~30-60 seconds (vs 5+ minutes manually)
-- **Build process**: NPM build completes in ~1 minute (vs 2+ minutes manually) 
+- **Dependencies**: install in ~30-60 seconds
+- **Build process**: NPM build completes in ~1 minute
 - **Test execution**: Test suite runs in ~1-2 minutes with caching optimizations
-- **No TLS issues**: GitHub Actions environment resolves certificate and firewall issues automatically
 
 ### Core Development Commands
 - View available tasks: `deno task`
@@ -42,7 +28,6 @@ Always reference these instructions first and fallback to search or bash command
 - Format code: `deno fmt`
 
 ### Development Workflow
-1. **GitHub Actions Environment**: Preferred for optimal setup with caching and dependency management
 2. **ALWAYS** run schema generation after changing TypeScript interfaces: `deno task schema`
 3. **ALWAYS** run `deno fmt` and `deno lint` before committing changes
 4. Use `--no-lock` flag if encountering lockfile issues during development
@@ -80,28 +65,19 @@ After making code changes, ALWAYS test the following scenarios to validate funct
 4. Format and lint: `deno fmt && deno lint`
 5. Test CLI functionality with the changed module
 
-### Network and Certificate Issues
-- **GitHub Actions Environment**: TLS certificate and firewall issues automatically resolved
-- **Manual Environment**: If encountering SSL certificate errors, use `DENO_TLS_CA_STORE=system`
-- Network access required for:
-  - Dependency downloads (JSR and NPM registries) - ~30-60 seconds with GitHub Actions caching
-  - Yahoo Finance API calls during testing and CLI usage
-  - Schema generation (requires npm package access)
+### Network notes
+- **New tests**: will usually require network access once.
 - **Cached test data**: ~450k lines of HTTP responses cached in `tests/fixtures/http/`
 - **Offline development**: Lint, format, and local file operations work without network access
 
 ## Common Issues and Solutions
 
 ### Build Failures
-- **GitHub Actions Environment**: Most SSL and network issues automatically resolved
-- **Manual Environment**: Use `DENO_TLS_CA_STORE=system` for SSL certificate issues
 - **Lockfile Corruption**: Use `--no-lock` flag to bypass lockfile issues
-- **Timeout Issues**: Much faster with GitHub Actions caching - builds typically complete in 1-2 minutes
 
 ### Network Dependencies
 - The project requires network access to NPM registry and JSR (JavaScript Registry)
-- **With GitHub Actions**: Dependencies install in ~30-60 seconds with caching
-- **Manual setup**: Initial dependency download: ~5 minutes (use appropriate timeouts)
+- Dependencies install in ~30-60 seconds with caching
 - Cached dependencies significantly reduce subsequent command execution times
 
 ### Testing
@@ -126,6 +102,7 @@ After making code changes, ALWAYS test the following scenarios to validate funct
 - `deno.json` - Project configuration and task definitions
 - `deno.lock` - Dependency lockfile (may need `--no-lock` to bypass)
 - `CONTRIBUTING.md` - Additional development guidance
+- `docs/UPGRADING.md` - on recent changes from v2 to v3
 - `/scripts/build_npm.ts` - NPM package build script
 - `/scripts/schema-gen.ts` - TypeScript to JSON schema generator
 
@@ -135,10 +112,10 @@ After making code changes, ALWAYS test the following scenarios to validate funct
 1. Create module file: `src/modules/myModule.ts`
 2. Add TypeScript interfaces with `@yf-schema` comment (required for schema generation)
 3. Create test file: `src/modules/myModule.test.ts` 
-4. Run `DENO_TLS_CA_STORE=system deno task schema` to generate `myModule.schema.json`
-5. Add module to `src/index-common.ts` for export
-6. Create documentation in `docs/modules/myModule.md`
-7. Update README.md to link new module documentation
+4. Run `deno task schema` to generate `myModule.schema.json`
+5. Add module to `src/modules/index.ts` for export
+6. Create documentation inline with JSDoc.
+7. ~~Update README.md to link new module documentation~~ (TODO)
 8. Test via CLI: `deno task cli myModule <symbol> <options>`
 
 ### Schema Generation Details
@@ -162,27 +139,17 @@ After making code changes, ALWAYS test the following scenarios to validate funct
    - Install dependencies (`deno install`) - takes ~5 minutes
    - Setup Node.js v20 with npm cache optimization
 2. **Testing**: Run tests with coverage (`deno task test --coverage`) - takes ~3 minutes
-3. **Coverage Processing**: Generate LCOV report (`deno coverage --lcov ./coverage > coverage.lcov`)
 4. **Build**: Build NPM package (`deno task build:npm`) - takes ~2 minutes
 5. **Release**: Run semantic-release for publishing to both NPM and JSR (JavaScript Registry)
 
 **Notes**: 
-- Coverage is currently generated but not yet uploaded to codecov
-- Test results are not yet used for repository badges
 - JSR publishing has been added alongside NPM releases
 
 ### Expected Timings
-**With GitHub Actions Setup (Recommended):**
+**With GitHub Actions Setup**
 - **Dependency installation**: ~30-60 seconds (with caching)
 - **Test execution**: ~1-2 minutes (optimized with caching)
 - **NPM build**: ~1 minute (cached dependencies)
-- **Schema generation**: ~30 seconds
-- **Linting/formatting**: ~10 seconds
-
-**Manual Setup (Fallback):**
-- **Dependency installation**: ~5+ minutes (NEVER CANCEL)
-- **Test execution**: ~2-3 minutes (NEVER CANCEL)
-- **NPM build**: ~2+ minutes (NEVER CANCEL)
 - **Schema generation**: ~30 seconds
 - **Linting/formatting**: ~10 seconds
 
@@ -190,29 +157,18 @@ After making code changes, ALWAYS test the following scenarios to validate funct
 
 ### Network Operations
 - **GitHub Actions Environment**: No manual environment variables needed
-- **Manual Environment**: `DENO_TLS_CA_STORE=system` - Fixes SSL certificate issues with npm registry  
 - `YF_QUERY_HOST` - Yahoo Finance API host (defaults to query2.yahoo.finance.com)
 
 ### Development Flags
-- `FETCH_DEVEL=nocache` - Disable HTTP caching for development
+- `FETCH_DEVEL=nocache` - Disable HTTP caching for development (may currently be broken)
 - `NODE_ENV=test` - Enable strict validation mode
 
 ## Troubleshooting
-
-### Common Error Messages
-**GitHub Actions Environment:** Most common network/TLS issues are automatically resolved.
-
-**Manual Environment:**
-- "Failed loading https://registry.npmjs.org/" - Use `DENO_TLS_CA_STORE=system`
-- "invalid peer certificate: UnknownIssuer" - SSL certificate issue, use system CA store
-- "Failed upgrading lockfile" - Use `--no-lock` flag
-- "JSR package manifest failed to load" - Network connectivity issue to JSR registry
 
 ## Example Development Workflow
 
 ### Complete Example: Adding a Simple Interface Change
 
-**With GitHub Actions Setup (Recommended):**
 ```bash
 # 1. Environment automatically configured via copilot-setup-steps.yml
 # No manual setup needed
@@ -237,31 +193,6 @@ deno lint  # Shows any linting issues
 deno task build:npm  # Takes ~1 minute with caching
 ```
 
-**Manual Setup (Fallback):**
-```bash
-# 1. Set up environment manually
-export DENO_TLS_CA_STORE=system
-
-# 2. Make a change to a TypeScript interface in src/modules/quote.ts
-# (example: add a new optional field to QuoteBase interface)
-
-# 3. Regenerate schemas (REQUIRED after interface changes)
-deno task schema  # Takes ~30 seconds
-
-# 4. Run tests to ensure nothing broke
-deno test -A --no-lock --parallel  # Takes 2-3 minutes. NEVER CANCEL.
-
-# 5. Test the specific module via CLI
-deno task cli quote AAPL  # Verify real API calls work
-
-# 6. Format and lint code
-deno fmt  # Auto-formats files
-deno lint  # Shows any linting issues
-
-# 7. Build NPM package to verify distribution works
-deno task build:npm  # Takes ~2 minutes. NEVER CANCEL.
-```
-
 ### Example: Refreshing Test Data for a Module
 ```bash
 # 1. Delete cached HTTP responses for specific API calls
@@ -276,15 +207,8 @@ cat tests/fixtures/http/quote-AAPL.json | head -20
 ```
 
 ### Performance Notes
-**With GitHub Actions Setup:**
 - Environment setup in ~30-60 seconds with comprehensive caching
 - Subsequent runs much faster due to optimized dependency and npm caching
-- Use `--parallel` flag for tests to maximize performance
-- Build artifacts are generated in `/npm` directory for NPM distribution
-
-**Manual Setup:**
-- First-time setup requires significant network downloading (~5+ minutes)
-- Subsequent runs are much faster due to caching
 - Use `--parallel` flag for tests to maximize performance
 - Build artifacts are generated in `/npm` directory for NPM distribution
 
