@@ -5,8 +5,18 @@ export interface ModuleOptions {
   validateOptions?: boolean;
   /** If false, will pass back unvalidated / untyped result from Yahoo  */
   validateResult?: boolean;
-  /** Filename to use for cached result */
-  devel?: boolean | string;
+  /** Controls for http cache
+   *
+   *  Either a string - "filename.json" to save with, or
+   *  { id, t, onFinish, }, where id="filename" (without ".json"),
+   *  and the rest are used in tests/common.ts for conditional caching
+   *  in tests.
+   */
+  devel?: string | {
+    id: string;
+    t: Deno.TestContext;
+    onFinish: (cb: (error?: unknown) => void) => void;
+  };
   /** An alternative fetch function to use just for this call */
   fetch?: typeof fetch;
   /** Any options to pass to fetch() just for this request. */

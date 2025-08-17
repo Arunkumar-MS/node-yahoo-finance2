@@ -160,7 +160,8 @@ After making code changes, ALWAYS test the following scenarios to validate funct
 - `YF_QUERY_HOST` - Yahoo Finance API host (defaults to query2.yahoo.finance.com)
 
 ### Development Flags
-- `FETCH_DEVEL=nocache` - Disable HTTP caching for development (may currently be broken)
+- `FETCH_DEVEL=nocache` - Force run network tests without using the cache.
+- `FETCH_DEVEL=recache` - As above, but: save a new cache on failing tests.  Not enabled yet for all tests.  Auto-disabled on tests with devel id ending ".static" or ".fake".
 - `NODE_ENV=test` - Enable strict validation mode
 
 ## Troubleshooting

@@ -5,7 +5,7 @@
 We use the [deno](https://deno.com/) runtime for development. It can be
 installed with a single command and replaces node, npm, eslint, prettier, tsc;
 is super fast and relieves us of many pain points. The library is still
-published in npm and runs on node and other runties.
+published in npm and runs on node and other runtimes.
 
 ### Import things to know
 
@@ -29,6 +29,15 @@ and consistently across repos. Guidance on how to retrieve fresh data will
 follow, in the meantime, just delete the relevant file in `tests/fixtures/http`.
 We use the [fetch-mock-cache](https://www.npmjs.com/package/fetch-mock-cache)
 library for this.
+
+Set the environment variable `FETCH_DEVEL=nocache` to force run all network
+tests without the cache. Set `FETCH_DEVEL=recache` to do the same, but also
+rewrite the cache for any failing tests. In both cases, skipped for tests
+providing a string `devel` like `search-AAPL` (these are mostly TODOs), and only
+used for tests providing a `devel` object like `{ id: "search-AAPL", ... }` but
+also skipped for ids ending `.static` or `.fake`, which are fixtures we never
+want to update because they rely on time-sensitive data or made up data,
+respectively. Most of this code lives in [tests/common.ts](./tests/common.ts).
 
 ##### Linting, formatting
 

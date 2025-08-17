@@ -13,7 +13,7 @@
   "exports": "./src/index.ts",
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
-    "@gadicc/fetch-mock-cache": "jsr:@gadicc/fetch-mock-cache@^2.1.3",
+    "@gadicc/fetch-mock-cache": "jsr:@gadicc/fetch-mock-cache@^2.2.0",
     "@jest/types": "npm:@jest/types@^29.6.3",
     "@std/async": "jsr:@std/async@^1.0.11",
     "@std/cli": "jsr:@std/cli@^1.0.14",

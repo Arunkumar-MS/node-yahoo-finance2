@@ -158,8 +158,8 @@ describe("quote", () => {
     });
   });
 
-  it("passes through beta field option", async () => {
-    const devel = "quote-MSFT-fields-beta.json";
+  it("passes through beta field option", async (t, onFinish) => {
+    const devel = { id: "quote-MSFT-fields-beta", t, onFinish };
     const queryOpts = { fields: ["beta"] };
     const result = await yf.quote("MSFT", queryOpts, { devel });
     expect(result.symbol).toBe("MSFT");

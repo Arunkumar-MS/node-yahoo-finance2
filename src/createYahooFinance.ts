@@ -23,32 +23,6 @@ export class YahooFinance {
     this._env = {
       URLSearchParams,
       fetch: null,
-      fetchDevel: () => {
-        // @ts-expect-error: later
-        const fetchCache = this.fetchCache;
-        if (!fetchCache) {
-          throw new Error("`fetchDevel()` called, but `fetchCache` not set");
-        }
-
-        function fetchDevel(
-          input: Parameters<typeof fetch>[0],
-          init?: Parameters<typeof fetch>[1], // & { devel?: boolean | string },
-        ): ReturnType<typeof fetch> {
-          // @ts-expect-error: later
-          const { devel, ..._init } = init || {};
-          // console.log({ devel });
-          if (typeof devel === "string") {
-            fetchCache._once({ id: devel.replace(/\.json$/, "") });
-          } else {
-            throw new Error(
-              "unexpected fetchDevel value: " + JSON.stringify(devel),
-            );
-          }
-
-          return fetch(input, init);
-        }
-        return fetchDevel;
-      },
     };
 
     if ("_createOpts" in this) {
@@ -62,6 +36,10 @@ export class YahooFinance {
       if ("_allowAdditionalProps" in createOpts) {
         if (!this._opts.validation) this._opts.validation = {};
         this._opts.validation.allowAdditionalProps = false;
+      }
+      if ("fetchDevel" in createOpts) {
+        // @ts-expect-error: later
+        this._env.fetchDevel = createOpts.fetchDevel;
       }
     } else {
       /// XXX TODO mergeoptions from setGlobalConfig
