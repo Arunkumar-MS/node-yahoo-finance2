@@ -6,13 +6,14 @@ export interface ModuleOptions {
   /** If false, will pass back unvalidated / untyped result from Yahoo  */
   validateResult?: boolean;
   /** Controls for http cache
-   *
-   *  Either a string - "filename.json" to save with, or
-   *  { id, t, onFinish, }, where id="filename" (without ".json"),
-   *  and the rest are used in tests/common.ts for conditional caching
-   *  in tests.
+   *  {
+   *    id: string;           // cache key
+   *    t: Deno.TestContext;  // test context
+   *    onFinish: (cb: (error?: unknown) => void) => void;
+   *  }
+   *  See `tests/common.ts` for how these are used for conditional caching.
    */
-  devel?: string | {
+  devel?: {
     id: string;
     t: Deno.TestContext;
     onFinish: (cb: (error?: unknown) => void) => void;

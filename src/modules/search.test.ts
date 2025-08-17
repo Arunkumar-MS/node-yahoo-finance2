@@ -30,8 +30,8 @@ describe("search", () => {
   // validate different searches
   it.each(testSearches)(
     "passed validation for search '%s'",
-    async (testSearch) => {
-      const devel = `search-${testSearch}.json`;
+    async (testSearch, t, onFinish) => {
+      const devel = { id: `search-${testSearch}`, t, onFinish };
       await yf.search(testSearch, {}, { devel });
     },
   );

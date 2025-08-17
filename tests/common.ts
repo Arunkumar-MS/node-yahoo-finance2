@@ -10,7 +10,6 @@ import createYahooFinance from "../src/createYahooFinance.ts";
 
 const FETCH_DEVEL_NOCACHE = Deno.env.get("FETCH_DEVEL") === "nocache";
 const FETCH_DEVEL_RECACHE = Deno.env.get("FETCH_DEVEL") === "recache";
-export const PERFORM_FAKE_TESTS = !FETCH_DEVEL_NOCACHE;
 
 function each(table: Global.EachTable) {
   const _table = table.map((item) => Array.isArray(item) ? item : [item]);
