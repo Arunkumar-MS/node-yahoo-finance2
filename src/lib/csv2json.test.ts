@@ -1,4 +1,6 @@
-import csv2json from "./csv2json.js";
+import { describe, expect, it } from "../../tests/common.ts";
+
+import csv2json from "./csv2json.ts";
 
 describe("csv2json", () => {
   it("handles historical input", () => {
