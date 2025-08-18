@@ -69,7 +69,7 @@ interface CreateYahooFinanceOptions {
   _opts?: YahooFinanceOptions;
 }
 
-type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =
+export type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =
   & {
     new (options?: YahooFinanceOptions):
       & YahooFinance

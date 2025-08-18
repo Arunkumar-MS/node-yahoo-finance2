@@ -114,7 +114,10 @@ interface ModuleExecOptions {
 // deno-lint-ignore no-explicit-any
 type ThisWithModExec = { [key: string]: any; _moduleExec: typeof moduleExec };
 
-async function moduleExec(this: ThisWithModExec, opts: ModuleExecOptions) {
+async function moduleExec(
+  this: ThisWithModExec,
+  opts: ModuleExecOptions,
+): Promise<unknown> {
   const queryOpts = opts.query;
   const moduleOpts = opts.moduleOptions;
   const moduleName = opts.moduleName;
@@ -240,9 +243,7 @@ async function moduleExec(this: ThisWithModExec, opts: ModuleExecOptions) {
     if (validateResult) throw error;
   }
 
-  // XXX TODO unknown shoudl be ok
-  // deno-lint-ignore no-explicit-any
-  return result as any;
+  return result as unknown;
 }
 
 export default moduleExec;
