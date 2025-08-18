@@ -32,12 +32,10 @@ library for this.
 
 Set the environment variable `FETCH_DEVEL=nocache` to force run all network
 tests without the cache. Set `FETCH_DEVEL=recache` to do the same, but also
-rewrite the cache for any failing tests. In both cases, skipped for tests
-providing a string `devel` like `search-AAPL` (these are mostly TODOs), and only
-used for tests providing a `devel` object like `{ id: "search-AAPL", ... }` but
-also skipped for ids ending `.static` or `.fake`, which are fixtures we never
-want to update because they rely on time-sensitive data or made up data,
-respectively. Most of this code lives in [tests/common.ts](./tests/common.ts).
+rewrite the cache for any failing tests. In both cases, skipped for ids ending
+`.static` or `.fake`, which are fixtures we never want to update because they
+rely on time-sensitive data or made up data, respectively. Most of this code
+lives in [tests/common.ts](./tests/common.ts).
 
 ##### Linting, formatting
 
