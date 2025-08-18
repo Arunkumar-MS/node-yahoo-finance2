@@ -55,6 +55,8 @@ jobs:
 
       # We did this already but it seems not everythign was installed for jsr publish?  Let's try.
       - run: deno install
+      # @sebbo2002/semantic-release-jsr seems to need it
+      - run: echo '{"version":"0.0.1"}' > package.json
 
       - name: Release if relevant
         env:
