@@ -64,8 +64,6 @@
  * @module dailyLosers
  */
 
-import type { ModuleThis } from "../lib/moduleCommon.ts";
-
 /**
  * Daily losers function (DEPRECATED).
  *

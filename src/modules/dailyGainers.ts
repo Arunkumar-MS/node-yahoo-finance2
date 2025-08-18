@@ -64,8 +64,6 @@
  * @module dailyGainers
  */
 
-import type { ModuleThis } from "../lib/moduleCommon.ts";
-
 /**
  * Daily gainers function (DEPRECATED).
  *
