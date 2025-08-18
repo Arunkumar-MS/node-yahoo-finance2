@@ -53,6 +53,9 @@ jobs:
 
       - run: npm install -D @sebbo2002/semantic-release-jsr conventional-changelog-conventionalcommits
 
+      # We did this already but it seems not everythign was installed for jsr publish?  Let's try.
+      - run: deno install
+
       - name: Release if relevant
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
