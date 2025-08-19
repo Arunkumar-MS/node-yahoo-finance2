@@ -1,8 +1,15 @@
-import defaultOptions, { type YahooFinanceOptions } from "./lib/options.ts";
+import defaultOptions, {
+  type YahooFinanceOptions,
+  YahooFinanceOptionsJSON,
+} from "./lib/options.ts";
 import yahooFinanceFetch from "./lib/yahooFinanceFetch.ts";
 import moduleExec from "./lib/moduleExec.ts";
 import Notices from "./lib/notices.ts";
 
+/**
+ * Instantiate a new YahooFinance client
+ * @constructor
+ */
 export class YahooFinance {
   _opts: YahooFinanceOptions;
   _fetch: typeof yahooFinanceFetch;
@@ -80,6 +87,8 @@ export type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =
   & {
     [K in keyof T["modules"]]: T["modules"][K];
   };
+
+export type { YahooFinanceOptions, YahooFinanceOptionsJSON };
 
 export default function createYahooFinance<T extends CreateYahooFinanceOptions>(
   createOpts: T,
