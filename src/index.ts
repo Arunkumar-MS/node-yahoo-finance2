@@ -1,14 +1,26 @@
 import createYahooFinance, {
   type YahooFinanceWithModules,
 } from "./createYahooFinance.ts";
-import modules from "./modules/index.ts";
-import quoteCombine from "./other/quoteCombine.ts";
+import * as modules from "./modules/index.ts";
+import * as other from "./other/index.ts";
 
-const allModules = { ...modules, quoteCombine } as const;
+const allModules = { ...modules, ...other } as const;
 const createOpts = { modules: allModules } as const;
 
 /**
- * Yahoo Finance API client with all modules TODO
+ * The full Yahoo Finance API client with all modules: `quote()`, `search()`, etc.
+ *
+ * @example
+ * ```ts
+ * import YahooFinance from "yahoo-finance2";
+ *
+ * const yahooFinance = new YahooFinance();
+ * console.log(await yahooFinance.quote("AAPL"));
+ * ```
+ *
+ * @see {@linkcode [createYahooFinance].YahooFinance YahooFinance} for instantiation options.
+ * @see The full list of {@link [modules] main modules} and {@link [other] other modules}.
+ * @see {@linkcode [createYahooFinance].createYahooFinance createYahooFinance} for creating an API client with custom modules (advanced use-cases only).
  */
 const YahooFinance: YahooFinanceWithModules<typeof createOpts> =
   createYahooFinance(createOpts);

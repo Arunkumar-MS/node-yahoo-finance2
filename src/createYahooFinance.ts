@@ -1,5 +1,9 @@
-import defaultOptions, {
-  type YahooFinanceOptions,
+/**
+ * @module createYahooFinance
+ */
+import defaultOptions from "./lib/options.ts";
+import type {
+  YahooFinanceOptions,
   YahooFinanceOptionsJSON,
 } from "./lib/options.ts";
 import yahooFinanceFetch from "./lib/yahooFinanceFetch.ts";
@@ -7,8 +11,22 @@ import moduleExec from "./lib/moduleExec.ts";
 import Notices from "./lib/notices.ts";
 
 /**
- * Instantiate a new YahooFinance client
- * @constructor
+ * Instantiate a new YahooFinance client.
+ *
+ * See {@linkcode YahooFinanceOptions} for available options.
+ *
+ * @example
+ * ```ts
+ * const yahooFinance = new YahooFinance();
+ * console.log(await yahooFinance.quote("AAPL"));
+ * ```
+ *
+ * Internal / private properties (prefixed `_`) and shown below are not part of the public API and should not be depended on.
+ * You're welcome to inspect or make use of them but they might change or disappear without notice.
+ *
+ * @see The full list of {@link [modules] main modules} and {@link [other] other modules}.
+ * @see {@linkcode [createYahooFinance].createYahooFinance createYahooFinance} for creating an API client with custom modules (advanced use-cases only).
+ * @see The {@link ../../~/default.html | default} entry point that includes all modules.
  */
 export class YahooFinance {
   _opts: YahooFinanceOptions;
@@ -90,6 +108,28 @@ export type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =
 
 export type { YahooFinanceOptions, YahooFinanceOptionsJSON };
 
+/**
+ * Create a new YahooFinance *factory* with the given options (usually a list of modules,
+ * or special options useful for testing).
+ *
+ * @example
+ * ```ts
+ * import quote from "yahoo-finance2/src/modules/quote.ts";
+ * import search from "yahoo-finance2/src/modules/search.ts";
+ *
+ * // Create a YahooFinance instance with the quote and search modules only.
+ * const yahooFinance = createYahooFinance({
+ *   modules: { quote, search }
+ * });
+ * ```
+ *
+ * By using only the modules you need, you'll have a small bundle size.  Just remember,
+ * yahoo-finance2 is never bundled to the client (browser), so your savings will be
+ * will be marginal (e.g. a marginally faster serverless cold start time).
+ *
+ * @param createOpts The options to create the YahooFinance instance with.
+ * @returns A {@link YahooFinance} class that you can call with `new YahooFinance()`.
+ */
 export default function createYahooFinance<T extends CreateYahooFinanceOptions>(
   createOpts: T,
 ): YahooFinanceWithModules<T> {

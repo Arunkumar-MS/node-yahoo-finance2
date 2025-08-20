@@ -1,3 +1,7 @@
+/**
+ * Main modules that consume the Yahoo Finance API.
+ * @module modules
+ */
 import autoc from "./autoc.ts";
 import chart from "./chart.ts";
 import dailyGainers from "./dailyGainers.ts";
@@ -12,7 +16,7 @@ import screener from "./screener.ts";
 import search from "./search.ts";
 import trendingSymbols from "./trendingSymbols.ts";
 
-export default {
+export {
   autoc,
   chart,
   dailyGainers,

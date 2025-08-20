@@ -333,6 +333,10 @@ export interface ChartOptionsWithReturnObject extends ChartOptions {
 // TODO: make this a deprecration passthrough
 export const _chart = chart;
 
+/**
+ * Fetch historical price, dividend, split and other data useful for charts.
+ *
+ * @see See the {@link [modules/chart] chart module} docs for examples and more. */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -340,6 +344,10 @@ export default function chart(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<ChartResultObject>;
 
+/**
+ * Fetch historical price, dividend, split and other data useful for charts.
+ *
+ * @see See the {@link [modules/chart] chart module} docs for examples and more. */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -347,6 +355,10 @@ export default function chart(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<ChartResultArray>;
 
+/**
+ * Fetch historical price, dividend, split and other data useful for charts.
+ *
+ * @see See the {@link [modules/chart] chart module} docs for examples and more. */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -354,6 +366,10 @@ export default function chart(
   moduleOptions?: ModuleOptionsWithValidateFalse,
 ): Promise<unknown>;
 
+/**
+ * Fetch historical price, dividend, split and other data useful for charts.
+ *
+ * @see See the {@link [modules/chart] chart module} docs for examples and more. */
 export default async function chart(
   this: ModuleThis,
   symbol: string,
