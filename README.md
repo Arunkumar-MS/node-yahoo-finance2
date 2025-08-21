@@ -16,7 +16,7 @@ You are reading the latest **Development docs**. For the **v2 docs**, click
 in the process of being updated for the upcoming **v3** - for more info see
 [UPGRADING](./docs/UPGRADING.md).
 
-[Live Demo on CodeSandbox](https://codesandbox.io/p/devbox/yahoo-finance2-nextjs-sy42pv)
+[Live Demo on CodeSandbox](https://codesandbox.io/p/devbox/yahoo-finance2-nextjs-forked-233dsg)
 (Updated 2024-06-17; NextJS with both RSC and Hook-Relay examples)
 
 ## Supported runtimes:
