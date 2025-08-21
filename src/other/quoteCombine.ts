@@ -1,3 +1,37 @@
+/**
+ * Utility function will debounce multiple calls and combine them into a
+ * single {@linkcode [modules/quote] quote} call, i.e. you'll call `quoteCombine()` many times, and
+ * 50ms after the last call, `quote()` will be called once so that only a single
+ * HTTP request is sent to collect the data for all symbols.
+ *
+ * @example
+ * ```ts
+ * import YahooFinance from 'yahoo-finance2';
+ * const yahooFinance = new YahooFinance();
+ *
+ * // Only a single HTTP request will be made for all of these.
+ * databaseResults.forEach(async (row) => {
+ *   const result = await yahooFinance.quoteCombine(row.symbol);
+ *   // do something
+ * });
+ *
+ * // Consider asking only for what you need to save on bandwidth and latency
+ * const fields = [ "regularMarketPrice", "regularMarketTime" ];
+ * const result = await yahooFinance.quoteCombine("TSLA", { fields });
+ * ```
+ *
+ * ### Notes:
+ * - Each `quoteCombine()` call receives the result for only the symbol it asked for.
+ *
+ * - Query options (i.e. `fields`, above) and the shape of the return result are identical to that of quote().
+ *
+ * - If you call `quoteCombine()` multiple times with different {@linkcode QuoteOptions}, `quote()` will be called separately for each unique set of queryOptions and its associated set of symbols.
+ *
+ * - It's fine if your code calls `quoteCombine()` many times for the same symbol. The symbol will be queried only once, and returned many times.
+ *
+ * @module quoteCombine
+ */
+
 import type {
   ModuleOptions,
   ModuleOptionsWithValidateFalse,
@@ -24,6 +58,11 @@ const DEBOUNCE_TIME = 50;
 
 const slugMap = new Map();
 
+/**
+ * Debounce multiple calls into a single `quote()` network request.
+ *
+ * @see See the {@link [other/quoteCombine] quoteCombine module} docs for examples and more.
+ */
 export default function quoteCombine(
   this: ModuleThis,
   query: string,
@@ -31,6 +70,11 @@ export default function quoteCombine(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<Quote>;
 
+/**
+ * Debounce multiple calls into a single `quote()` network request.
+ *
+ * @see See the {@link [other/quoteCombine] quoteCombine module} docs for examples and more.
+ */
 export default function quoteCombine(
   this: ModuleThis,
   query: string,

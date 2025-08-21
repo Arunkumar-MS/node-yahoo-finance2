@@ -35,6 +35,7 @@
     "./modules/search": "./src/modules/search.ts",
     "./modules/trendingSymbols": "./src/modules/trendingSymbols.ts",
     "./other": "./src/other/index.ts",
+    "./other/quoteCombine": "./src/other/quoteCombine.ts",
     "./lib/cookieJar": "./src/lib/cookieJar.ts"
   },
   "imports": {
