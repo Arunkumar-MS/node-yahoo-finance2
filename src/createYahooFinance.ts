@@ -134,13 +134,13 @@ export type YahooFinanceWithModules<T extends CreateYahooFinanceOptions> =
 export type { YahooFinanceOptions, YahooFinanceOptionsJSON };
 
 /**
- * Create a new YahooFinance *factory* with the given options (usually a list of modules,
+ * Create a new YahooFinance **class** with the given options (usually a list of modules,
  * or special options useful for testing).
  *
- * @example
+ * @example Basic Example
  * ```ts
- * import quote from "yahoo-finance2/src/modules/quote.ts";
- * import search from "yahoo-finance2/src/modules/search.ts";
+ * import quote from "yahoo-finance2/modules/quote.ts";
+ * import search from "yahoo-finance2/modules/search.ts";
  *
  * // Create a YahooFinance instance with the quote and search modules only.
  * const yahooFinance = createYahooFinance({
