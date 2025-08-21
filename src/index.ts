@@ -1,3 +1,6 @@
+/**
+ * @module YahooFinance
+ */
 import createYahooFinance, {
   type YahooFinanceWithModules,
 } from "./createYahooFinance.ts";
