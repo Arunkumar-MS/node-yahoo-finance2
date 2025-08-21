@@ -11,9 +11,6 @@ Copyright (c) 2021 by Gadi Cohen and Pilwon Huh. [MIT licensed](./LICENSE).
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-Supports Node 18.20.4 and up (tests are run against 18.20.4), e.g. all active
-LTS versions.
-
 You are reading the latest **Development docs**. For the **v2 docs**, click
 [here](https://github.com/gadicc/node-yahoo-finance2/tree/2.x). The dev docs are
 in the process of being updated for the upcoming **v3** - for more info see
@@ -49,26 +46,25 @@ considered acknowledgement and acceptance of these terms and of its license.
 
 ```bash
 $ npx yahoo-finance2 --help
-$ npx yahoo-finance2 search AAPL
-$ npx yahoo-finance2 quoteSummary AAPL
-$ npx yahoo-finance2 quoteSummary AAPL '{"modules":["assetProfile", "secFilings"]}'
+$ npx yahoo-finance2 search AMZN
+$ npx yahoo-finance2 quoteSummary GOOGL
+$ npx yahoo-finance2 quoteSummary NVDA '{"modules":["assetProfile", "secFilings"]}'
 
 # or install it
 $ npm install -g yahoo-finance2
-$ yahoo-finance search AAPL '{ "someOption": true }'
+$ yahoo-finance search MSFT '{ "someOption": true }'
 ```
 
 **Importing**
 
-```js
-// import syntax (recommended)
-import yahooFinance from "yahoo-finance2";
+```ts
+import YahooFinance from "yahoo-finance2";
+const yahooFinance = new YahooFinance();
 
-// require syntax (if your code base does not support imports)
-const yahooFinance = require("yahoo-finance2").default; // NOTE the .default
+const results = await yahooFinance.search("Apple");
 
-const results = await yahooFinance.search("AAPL");
-const results = await yahooFinance.search("AAPL", { someOption: true, etc });
+const quote = await yahooFinance.quote('AAPL');
+const { regularMarketPrice as price, currency } = quote;
 ```
 
 Available modules:
@@ -102,39 +98,6 @@ Particularly, make sure to read the notes there on
 delisted, Yahoo removes all related data, including historical (and chart) data
 from periods _before_ the delisting occurred (i.e. queries that worked before
 will start failing, and there is no way to retrieve this data again).
-
-## Even Quicker Start - Stock Price
-
-```js
-const quote = await yahooFinance.quote('AAPL');
-const { regularMarketPrice as price, currency } = quote;
-```
-
-## NB: CommonJS / ES modules
-
-This package is shipped as **both an ES Module and a CommonJS module**. Node
-will _automatically_ load the ES module if:
-
-- _Your_ `package.json` contains a `{ type: module }` entry
-- You're running at least Node 12 (maybe with `--experimental-module` flag).
-- You `import` the module (`require` function does not exist in ES modules)
-
-otherwise the traditional CommonJS module will be loaded. No flags are necessary
-for Node 12.7.0+ and Node 13.2.0+, but for older versions, you need to add the
-`--experimental-module` flag).
-
-ES Modules are "relatively" new. They got a big boost in April 2021 when Node
-10, which did not support them, reached end-of-life. However, support varies by
-build tool and configuration, and there are some edge cases which can be tricky.
-Please open an issue if you run into any trouble.
-
-**require (CommonJS)**
-
-If you use load the library with `require`, make sure to add `.default`:
-
-```js
-const yahooFinance = require("yahoo-finance2").default; // NOTE the .default
-```
 
 ## (Optional) TypeScript Love
 
