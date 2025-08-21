@@ -187,6 +187,12 @@ const queryOptionsDefaults: OptionsOptions = {
   region: "US",
 };
 
+/**
+ * Get options chain data including calls, puts, and Greeks (delta, gamma, etc).
+ *
+ * **See the {@link [modules/options] options module} docs for examples and more.**
+ * @see {@link [modules/options] options module} docs for examples and more.
+ */
 export default function options(
   this: ModuleThis,
   symbol: string,
@@ -194,6 +200,14 @@ export default function options(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<OptionsResult>;
 
+/**
+ * Get options chain data including calls, puts, and Greeks (delta, gamma, etc).
+ *
+ * **See the {@link [modules/options] options module} docs for examples and more.**
+ * @see {@link [modules/options] options module} docs for examples and more.
+ *
+ * @returns An unvalidated and untyped result, but that have a similar form to {@linkcode OptionsResult}.
+ */
 export default function options(
   this: ModuleThis,
   symbol: string,

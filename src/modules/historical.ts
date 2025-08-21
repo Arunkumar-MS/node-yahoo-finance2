@@ -206,6 +206,9 @@ function nullFieldCount(object: unknown) {
 /**
  * Get historical price data for a symbol.
  *
+ * **See the {@link [modules/historical] historical module} docs for examples and more.**
+ * @see {@link [modules/historical] historical module} docs for examples and more.
+ *
  * @param symbol - Stock symbol to get historical data for
  * @param queryOptionsOverrides - Configuration for price history
  * @param moduleOptions - Optional module configuration
@@ -220,6 +223,9 @@ export default function historical(
 
 /**
  * Get dividend history for a symbol.
+ *
+ * **See the {@link [modules/historical] historical module} docs for examples and more.**
+ * @see {@link [modules/historical] historical module} docs for examples and more.
  *
  * @param symbol - Stock symbol to get dividend data for
  * @param queryOptionsOverrides - Configuration with events: "dividends"
@@ -236,6 +242,9 @@ export default function historical(
 /**
  * Get stock split history for a symbol.
  *
+ * **See the {@link [modules/historical] historical module} docs for examples and more.**
+ * @see {@link [modules/historical] historical module} docs for examples and more.
+ *
  * @param symbol - Stock symbol to get split data for
  * @param queryOptionsOverrides - Configuration with events: "split"
  * @param moduleOptions - Optional module configuration
@@ -250,6 +259,9 @@ export default function historical(
 
 /**
  * Get historical data with validation disabled.
+ *
+ * **See the {@link [modules/historical] historical module} docs for examples and more.**
+ * @see {@link [modules/historical] historical module} docs for examples and more.
  *
  * @param symbol - Stock symbol to get data for
  * @param queryOptionsOverrides - Configuration options

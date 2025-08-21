@@ -1,8 +1,8 @@
 /**
- * Insights module for retrieving analyst insights, reports, and company analysis.
+ * Analyst insights, research reports, and company analysis.
  *
- * This module provides access to research reports, analyst recommendations,
- * significant developments, and other insights for financial instruments.
+ * The module retrieves comprehensive analyst coverage including recommendations,
+ * research reports, significant developments, and company analysis scores.
  *
  * @example Basic Usage
  * ```typescript
@@ -30,6 +30,52 @@
  *   console.log(`${dev.date}: ${dev.headline}`);
  * });
  * ```
+ *
+ * @example Research Reports
+ * ```typescript
+ * const insights = await yahooFinance.insights('TSLA', {
+ *   reportsCount: 5
+ * });
+ *
+ * // Browse research reports
+ * insights.reports?.forEach(report => {
+ *   console.log(`${report.reportTitle} - ${report.provider}`);
+ *   console.log(`Published: ${report.reportDate}`);
+ *   console.log(`Rating: ${report.investmentRating}`);
+ *   if (report.targetPrice) {
+ *     console.log(`Target: $${report.targetPrice}`);
+ *   }
+ * });
+ * ```
+ *
+ * @example Company Analysis
+ * ```typescript
+ * const insights = await yahooFinance.insights('MSFT');
+ *
+ * // Company performance vs sector
+ * if (insights.companySnapshot) {
+ *   const company = insights.companySnapshot.company;
+ *   const sector = insights.companySnapshot.sector;
+ *
+ *   console.log('Company vs Sector Scores:');
+ *   console.log(`Innovation: ${company.innovativeness} vs ${sector.innovativeness}`);
+ *   console.log(`Hiring: ${company.hiring} vs ${sector.hiring}`);
+ *   console.log(`Sustainability: ${company.sustainability} vs ${sector.sustainability}`);
+ * }
+ * ```
+ *
+ * @remarks
+ * **Data Availability**: Insights data varies significantly by symbol.
+ * Popular large-cap stocks typically have the most comprehensive coverage.
+ *
+ * **Premium Content**: Some research reports and detailed analysis may
+ * require premium subscriptions or additional access rights.
+ *
+ * **Timeliness**: Recommendations and reports reflect the most recent
+ * analyst coverage but may not include the very latest market developments.
+ *
+ * @see {@link InsightsOptions} for all available options
+ * @see {@link InsightsResult} for complete result structure
  *
  * @remarks
  * **Data Availability**: Insights data availability varies by symbol.
@@ -256,10 +302,15 @@ const queryOptionsDefaults = {
 /**
  * Get insights with validation enabled.
  *
- * @param symbol - Stock symbol to get insights for
- * @param queryOptionsOverrides - Optional configuration for language, region, and report count
- * @param moduleOptions - Optional module configuration
- * @returns Promise resolving to validated InsightsResult
+ * **See the {@link [modules/insights] insights module} docs for examples and more.**
+ * @see {@link [modules/insights] insights module} docs for examples and more.
+ *
+ * @param symbol - Stock symbol to get insights for.
+ *
+ * @throws Will throw an error if:
+ *         - Network request fails
+ *         - Invalid symbol
+ *         - Validation fails (if enabled)
  */
 export default function insights(
   this: ModuleThis,
@@ -271,10 +322,13 @@ export default function insights(
 /**
  * Get insights with validation disabled.
  *
- * @param symbol - Stock symbol to get insights for
- * @param queryOptionsOverrides - Optional configuration for language, region, and report count
+ * **See the {@link [modules/insights] insights module} docs for examples and more.**
+ * @see {@link [modules/insights] insights module} docs for examples and more.
+ *
+ * @param symbol - Stock symbol to get insights for.
+ * @param queryOptionsOverrides - Optional configuration for language, region, and report count.
  * @param moduleOptions - Module configuration with validateResult: false
- * @returns Promise resolving to unvalidated raw data
+ * @returns Promise resolving to unvalidated raw data, but that should resemble {@linkcode InsightsResult}.
  */
 export default function insights(
   this: ModuleThis,
@@ -283,67 +337,8 @@ export default function insights(
   moduleOptions?: ModuleOptionsWithValidateFalse,
 ): Promise<unknown>;
 
-/**
- * Get analyst insights, research reports, and analysis for a financial instrument.
- *
- * This function retrieves comprehensive analyst coverage including recommendations,
- * research reports, significant developments, and company analysis scores.
- *
- * @example Basic Usage
- * ```typescript
- * import YahooFinance from "yahoo-finance2";
- * const yahooFinance = new YahooFinance();
- *
- * // Get insights for a symbol
- * const insights = await yahooFinance.insights('AAPL');
- *
- * // Check analyst recommendation
- * if (insights.recommendation) {
- *   console.log(`Rating: ${insights.recommendation.rating}`);
- *   console.log(`Target Price: $${insights.recommendation.targetPrice}`);
- * }
- *
- * // Review significant developments
- * insights.sigDevs.forEach(dev => {
- *   console.log(`${dev.date.toISOString().split('T')[0]}: ${dev.headline}`);
- * });
- * ```
- *
- * @example Research Reports
- * ```typescript
- * const insights = await yahooFinance.insights('TSLA', {
- *   reportsCount: 5
- * });
- *
- * // Browse research reports
- * insights.reports?.forEach(report => {
- *   console.log(`${report.reportTitle} - ${report.provider}`);
- *   console.log(`Published: ${report.reportDate}`);
- *   console.log(`Rating: ${report.investmentRating}`);
- *   if (report.targetPrice) {
- *     console.log(`Target: $${report.targetPrice}`);
- *   }
- * });
- * ```
- *
- * @example Company Analysis
- * ```typescript
- * const insights = await yahooFinance.insights('MSFT');
- *
- * // Company performance vs sector
- * if (insights.companySnapshot) {
- *   const company = insights.companySnapshot.company;
- *   const sector = insights.companySnapshot.sector;
- *
- *   console.log('Company vs Sector Scores:');
- *   console.log(`Innovation: ${company.innovativeness} vs ${sector.innovativeness}`);
- *   console.log(`Hiring: ${company.hiring} vs ${sector.hiring}`);
- *   console.log(`Sustainability: ${company.sustainability} vs ${sector.sustainability}`);
- * }
- * ```
- *
- * @param symbol - Stock symbol to get insights for.
- *                 Use search() to find valid symbols.
+/*
+ * @param symbol - Stock symbol to get insights for.  Use search() to find valid symbols.
  * @param queryOptionsOverrides - Optional configuration:
  *                                - `reportsCount`: Number of research reports (default: 2)
  *                                - `region`: Market region (default: "US")
@@ -361,19 +356,6 @@ export default function insights(
  *         - Network request fails
  *         - Invalid symbol
  *         - Validation fails (if enabled)
- *
- * @remarks
- * **Data Availability**: Insights data varies significantly by symbol.
- * Popular large-cap stocks typically have the most comprehensive coverage.
- *
- * **Premium Content**: Some research reports and detailed analysis may
- * require premium subscriptions or additional access rights.
- *
- * **Timeliness**: Recommendations and reports reflect the most recent
- * analyst coverage but may not include the very latest market developments.
- *
- * @see {@link InsightsOptions} for all available options
- * @see {@link InsightsResult} for complete result structure
  */
 export default function insights(
   this: ModuleThis,

@@ -46,12 +46,22 @@
  * const fullQuotes = await yahooFinance.quote(symbols);
  * ```
  *
- * @remarks
- * **Regional Codes**: Use standard country codes (US, GB, DE, JP, CA, etc.)
- * to get trending symbols for specific markets.
+ * ## Notes
  *
- * **Update Frequency**: Trending data is updated regularly throughout
- * trading hours based on search volume and interest.
+ * - **Data Freshness**: Trending data is updated regularly throughout trading
+ * hours based on search volume, social media mentions, and trading activity.
+ *
+ * - **Regional Markets**: Each region shows symbols that are trending within
+ * that specific market. US trending symbols may be very different from
+ * Japanese or European trending symbols.
+ *
+ * - **Usage with other Modules**: The trending symbols can be used as input
+ * to other modules like {@link quote} or {@link quoteSummary} to get detailed
+ * information about the trending instruments.
+ *
+ * See {@link TrendingSymbolsOptions} for all available options.
+ *
+ * See {@link TrendingSymbolsResult} for complete result structure.
  *
  * @module trendingSymbols
  */
@@ -120,6 +130,9 @@ const queryOptionsDefaults = {
 /**
  * Get trending symbols with validation enabled.
  *
+ * **See the {@link [modules/trendingSymbols] trendingSymbols module} docs for examples and more.**
+ * @see {@link [modules/trendingSymbols] trendingSymbols module} docs for examples and more.
+ *
  * @param query - Region code (e.g., "US", "GB", "DE")
  * @param queryOptionsOverrides - Optional configuration for language, region, and count
  * @param moduleOptions - Optional module configuration
@@ -135,6 +148,9 @@ export default function trendingSymbols(
 /**
  * Get trending symbols with validation disabled.
  *
+ * **See the {@link [modules/trendingSymbols] trendingSymbols module} docs for examples and more.**
+ * @see {@link [modules/trendingSymbols] trendingSymbols module} docs for examples and more.
+ *
  * @param query - Region code (e.g., "US", "GB", "DE")
  * @param queryOptionsOverrides - Optional configuration for language, region, and count
  * @param moduleOptions - Module configuration with validateResult: false
@@ -148,87 +164,10 @@ export default function trendingSymbols(
 ): Promise<unknown>;
 
 /**
- * Get financial symbols that are currently trending in a specific region.
- *
- * This function retrieves a list of stock symbols that are receiving increased
- * attention or search volume in a particular geographic market.
- *
- * @example Basic Usage
- * ```typescript
- * import YahooFinance from "yahoo-finance2";
- * const yahooFinance = new YahooFinance();
- *
- * // Get trending symbols in the US
- * const usTrending = await yahooFinance.trendingSymbols('US');
- * console.log(usTrending.quotes); // [{ symbol: 'TSLA' }, { symbol: 'AAPL' }, ...]
- *
- * // Get trending symbols in the UK
- * const ukTrending = await yahooFinance.trendingSymbols('GB');
- * ```
- *
- * @example Custom Options
- * ```typescript
- * // Get more trending symbols
- * const moreTrending = await yahooFinance.trendingSymbols('US', {
- *   count: 10
- * });
- *
- * // Localized results
- * const germanTrending = await yahooFinance.trendingSymbols('DE', {
- *   lang: 'de-DE',
- *   region: 'DE'
- * });
- * ```
- *
- * @example Get Full Quote Data
- * ```typescript
- * const trending = await yahooFinance.trendingSymbols('US');
- *
- * // Extract just the symbols
- * const symbols = trending.quotes.map(quote => quote.symbol);
- * console.log(symbols); // ['TSLA', 'AAPL', 'MSFT', ...]
- *
- * // Get full quote data for trending symbols
- * const fullQuotes = await yahooFinance.quote(symbols);
- * fullQuotes.forEach(quote => {
- *   console.log(`${quote.symbol}: $${quote.regularMarketPrice}`);
- * });
- * ```
- *
- * @param query - Region/country code for which to get trending symbols.
- *                Common values: "US", "GB", "DE", "JP", "CA", "AU", etc.
- *                Use standard ISO country codes.
- * @param queryOptionsOverrides - Optional configuration:
- *                                - `count`: Number of symbols to return (default: 5)
- *                                - `lang`: Language code (default: "en-US")
- *                                - `region`: Region code (usually same as query)
- * @param moduleOptions - Optional module configuration (validateResult, etc.)
- *
- * @returns Promise that resolves to a TrendingSymbolsResult containing:
- *          - `quotes`: Array of trending symbol objects
- *          - `count`: Number of symbols returned
- *          - `jobTimestamp`: Timestamp when data was generated
- *          - `startInterval`: Start of trending period
- *
  * @throws Will throw an error if:
  *         - Network request fails
  *         - Invalid region code
  *         - Validation fails (if enabled)
- *
- * @remarks
- * **Data Freshness**: Trending data is updated regularly throughout trading
- * hours based on search volume, social media mentions, and trading activity.
- *
- * **Regional Markets**: Each region shows symbols that are trending within
- * that specific market. US trending symbols may be very different from
- * Japanese or European trending symbols.
- *
- * **Usage with Other Modules**: The trending symbols can be used as input
- * to other modules like {@link quote} or {@link quoteSummary} to get detailed
- * information about the trending instruments.
- *
- * @see {@link TrendingSymbolsOptions} for all available options
- * @see {@link TrendingSymbolsResult} for complete result structure
  */
 export default function trendingSymbols(
   this: ModuleThis,

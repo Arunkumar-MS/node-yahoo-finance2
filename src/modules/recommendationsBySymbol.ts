@@ -218,6 +218,12 @@ export interface RecommendationsBySymbolOptions {
 
 const queryOptionsDefaults = {};
 
+/**
+ * Given a symbol, return recommendations for finding related and similar stocks.
+ *
+ * **See the {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.**
+ * @see {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.
+ */
 export default function recommendationsBySymbol(
   this: ModuleThis,
   query: string,
@@ -225,6 +231,12 @@ export default function recommendationsBySymbol(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<RecommendationsBySymbolResponse>;
 
+/**
+ * Given a symbol, return recommendations for finding related and similar stocks.
+ *
+ * **See the {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.**
+ * @see {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.
+ */
 export default function recommendationsBySymbol(
   this: ModuleThis,
   query: string | string[],
@@ -232,6 +244,12 @@ export default function recommendationsBySymbol(
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<RecommendationsBySymbolResponseArray>;
 
+/**
+ * Given a symbol, return recommendations for finding related and similar stocks.
+ *
+ * **See the {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.**
+ * @see {@link [modules/recommendationsBySymbol] recommendationsBySymbol module} docs for examples and more.
+ */
 export default function recommendationsBySymbol(
   this: ModuleThis,
   query: string | string[],

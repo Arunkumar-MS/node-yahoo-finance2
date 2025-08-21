@@ -67,6 +67,8 @@
 /**
  * Daily losers function (DEPRECATED).
  *
+ * **See the {@link [modules/dailyLosers] dailyLosers module} docs for examples and more.**
+ *
  * This function always throws an error as it has been deprecated in favor
  * of the screener module which provides the same functionality with better
  * reliability and more options.

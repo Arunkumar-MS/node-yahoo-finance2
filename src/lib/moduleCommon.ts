@@ -42,3 +42,8 @@ export interface ModuleThis {
   // _moduleExec: typeof ModuleExec;
   // _notices: Notices;
 }
+
+/**
+ * test
+ */
+export type ModuleError = Error;

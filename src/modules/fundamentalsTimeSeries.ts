@@ -833,6 +833,13 @@ const queryOptionsDefaults: Omit<
   type: "quarterly",
 };
 
+/**
+ * Get detailed financial statements (income statement, balance sheet, cash flow statement)
+ * over time (quarterly or annually).
+ *
+ * **See the {@link [modules/fundamentalsTimeSeries] fundamentalsTimeSeries module} docs for examples and more.**
+ * @see {@link [modules/fundamentalsTimeSeries] fundamentalsTimeSeries module} docs for examples and more.
+ */
 export default function fundamentalsTimeSeries(
   this: ModuleThis,
   symbol: string,
@@ -895,7 +902,7 @@ export default function fundamentalsTimeSeries(
  * @param queryOptions Input query options.
  * @returns Query parameters.
  */
-export const processQuery = function (
+const processQuery = function (
   queryOptions: FundamentalsTimeSeriesOptions,
 ): Partial<FundamentalsTimeSeriesOptions> {
   // Convert dates
@@ -972,7 +979,7 @@ export const processQuery = function (
  * @returns Formatted response.
  */
 // deno-lint-ignore no-explicit-any
-export const processResponse = function (response: any): any {
+const processResponse = function (response: any): any {
   // deno-lint-ignore no-explicit-any
   const keyedByTimestamp: Record<string, any> = {};
   const replace = new RegExp(FundamentalsTimeSeries_Types.join("|"));

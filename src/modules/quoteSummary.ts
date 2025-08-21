@@ -27,32 +27,18 @@
  * });
  * ```
  *
- * @example Available Modules
- * ```typescript
- * // Financial statements
- * const financials = await yahooFinance.quoteSummary('AAPL', {
- *   modules: [
- *     'incomeStatementHistory',
- *     'balanceSheetHistory',
- *     'cashflowStatementHistory'
- *   ]
- * });
+ * ### Available Modules
  *
- * // Analyst data
- * const analysis = await yahooFinance.quoteSummary('AAPL', {
- *   modules: ['recommendationTrend', 'upgradeDowngradeHistory']
- * });
+ * See {@linkcode quoteSummary_modules} for the full list.
  *
- * // Holdings data for funds/ETFs
- * const holdings = await yahooFinance.quoteSummary('SPY', {
- *   modules: ['topHoldings', 'fundProfile']
- * });
- * ```
+ * ### Notes
+ * * In the original **node-yahoo-finance v1**, this was incorrectly called "quote".
+ *   The actual quote data is now in the {@linkcode [modules/quote] quote} module.
+ *   This module provides much more comprehensive data than basic quotes.
  *
- * @remarks
- * **Note**: In the original `node-yahoo-finance` v1, this was incorrectly
- * called "quote". The actual quote data is now in the {@link quote} module.
- * This module provides much more comprehensive data than basic quotes.
+ * * **Performance**: requesting fewer modules improves response time.
+ * Only request the modules you actually need.
+
  *
  * @module quoteSummary
  */
@@ -194,6 +180,9 @@ const queryOptionsDefaults = {
 /**
  * Get comprehensive quote summary data with validation enabled.
  *
+ * **See the {@link [modules/quoteSummary] quoteSummary module} docs for examples and more.**
+ * @see {@link [modules/quoteSummary] quoteSummary module} docs for examples and more.
+ *
  * @param symbol - Stock symbol to get data for
  * @param queryOptionsOverrides - Optional configuration for modules and formatting
  * @param moduleOptions - Optional module configuration
@@ -209,10 +198,13 @@ export default function quoteSummary(
 /**
  * Get comprehensive quote summary data with validation disabled.
  *
+ * **See the {@link [modules/quoteSummary] quoteSummary module} docs for examples and more.**
+ * @see {@link [modules/quoteSummary] quoteSummary module} docs for examples and more.
+ *
  * @param symbol - Stock symbol to get data for
  * @param queryOptionsOverrides - Optional configuration for modules and formatting
  * @param moduleOptions - Module configuration with validateResult: false
- * @returns Promise resolving to unvalidated raw data
+ * @returns Promise resolving to unvalidated raw data, but resembling {@linkcode QuoteSummaryResult}.
  */
 export default function quoteSummary(
   this: ModuleThis,
@@ -222,68 +214,6 @@ export default function quoteSummary(
 ): Promise<unknown>;
 
 /**
- * Get comprehensive financial data and analysis for a single symbol.
- *
- * This function provides detailed financial information including company profiles,
- * financial statements, analyst recommendations, ownership data, and more. The data
- * is organized into modules that you can selectively request.
- *
- * @example Basic Usage
- * ```typescript
- * import YahooFinance from "yahoo-finance2";
- * const yahooFinance = new YahooFinance();
- *
- * // Get default modules (price + summaryDetail)
- * const basic = await yahooFinance.quoteSummary('AAPL');
- * console.log(basic.price?.regularMarketPrice);
- * console.log(basic.summaryDetail?.marketCap);
- * ```
- *
- * @example Company Information
- * ```typescript
- * const profile = await yahooFinance.quoteSummary('AAPL', {
- *   modules: ['summaryProfile', 'assetProfile']
- * });
- * console.log(profile.summaryProfile?.longBusinessSummary);
- * console.log(profile.assetProfile?.fullTimeEmployees);
- * ```
- *
- * @example Financial Statements
- * ```typescript
- * const financials = await yahooFinance.quoteSummary('AAPL', {
- *   modules: [
- *     'incomeStatementHistory',
- *     'balanceSheetHistory',
- *     'cashflowStatementHistory'
- *   ]
- * });
- * const latestIncome = financials.incomeStatementHistory?.incomeStatementHistory[0];
- * ```
- *
- * @example Analyst Data
- * ```typescript
- * const analysis = await yahooFinance.quoteSummary('AAPL', {
- *   modules: ['recommendationTrend', 'upgradeDowngradeHistory', 'earningsTrend']
- * });
- * console.log(analysis.recommendationTrend?.trend);
- * ```
- *
- * @example Fund/ETF Data
- * ```typescript
- * const fund = await yahooFinance.quoteSummary('SPY', {
- *   modules: ['fundProfile', 'topHoldings', 'fundPerformance']
- * });
- * console.log(fund.topHoldings?.holdings);
- * ```
- *
- * @example All Available Data
- * ```typescript
- * const everything = await yahooFinance.quoteSummary('AAPL', {
- *   modules: 'all'
- * });
- * // Contains all available modules for the symbol
- * ```
- *
  * @param symbol - Stock, ETF, mutual fund, or other financial instrument symbol.
  *                 Use search() to find valid symbols.
  * @param queryOptionsOverrides - Optional configuration:
@@ -299,18 +229,6 @@ export default function quoteSummary(
  *         - Network request fails
  *         - Invalid symbol
  *         - Validation fails (if enabled)
- *
- * @remarks
- * **Module Categories:**
- * - **Core**: `price`, `summaryDetail`, `quoteType` (basic info)
- * - **Profile**: `summaryProfile`, `assetProfile` (company info)
- * - **Financials**: `*StatementHistory*` modules (financial statements)
- * - **Analysis**: `recommendation*`, `earnings*`, `upgrade*` (analyst data)
- * - **Ownership**: `*Ownership`, `*Holders*` (shareholder info)
- * - **Fund**: `fund*`, `topHoldings` (fund/ETF specific)
- *
- * **Performance Note**: Requesting fewer modules improves response time.
- * Only request the modules you actually need.
  *
  * @see {@link QuoteSummaryOptions} for all available options
  * @see {@link QuoteSummaryResult} for result structure

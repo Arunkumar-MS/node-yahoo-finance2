@@ -151,6 +151,7 @@ import type {
   ModuleOptionsWithValidateTrue,
   ModuleThis,
 } from "../lib/moduleCommon.ts";
+
 import { getTypedDefinitions } from "../lib/validate/index.ts";
 
 // @yf-schema: see the docs on how this file is automatically updated.
@@ -336,7 +337,9 @@ export const _chart = chart;
 /**
  * Fetch historical price, dividend, split and other data useful for charts.
  *
- * @see See the {@link [modules/chart] chart module} docs for examples and more. */
+ * **See the {@link [modules/chart] chart module} docs for examples and more.**
+ * @see {@link [modules/chart] chart module} docs for examples and more.
+ */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -347,7 +350,9 @@ export default function chart(
 /**
  * Fetch historical price, dividend, split and other data useful for charts.
  *
- * @see See the {@link [modules/chart] chart module} docs for examples and more. */
+ * **See the {@link [modules/chart] chart module} docs for examples and more.**
+ * @see {@link [modules/chart] chart module} docs for examples and more.
+ */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -358,7 +363,12 @@ export default function chart(
 /**
  * Fetch historical price, dividend, split and other data useful for charts.
  *
- * @see See the {@link [modules/chart] chart module} docs for examples and more. */
+ * **See the {@link [modules/chart] chart module} docs for examples and more.**
+ * @see {@link [modules/chart] chart module} docs for examples and more.
+ *
+ * @returns An unvalidated and untyped result, but that have a similar form to {@linkcode ChartResultArray}.
+ * @throws {ModuleError}
+ */
 export default function chart(
   this: ModuleThis,
   symbol: string,
@@ -366,10 +376,6 @@ export default function chart(
   moduleOptions?: ModuleOptionsWithValidateFalse,
 ): Promise<unknown>;
 
-/**
- * Fetch historical price, dividend, split and other data useful for charts.
- *
- * @see See the {@link [modules/chart] chart module} docs for examples and more. */
 export default async function chart(
   this: ModuleThis,
   symbol: string,

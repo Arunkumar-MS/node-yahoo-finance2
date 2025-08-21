@@ -5,6 +5,10 @@
  * criteria for various investment strategies. Essential for finding stocks that match
  * specific financial criteria, market conditions, or investment themes.
  *
+ * ### Available modules
+ *
+ * See {@linkcode PredefinedScreenerModules}.
+ *
  * @example Basic Usage - Day Gainers
  * ```typescript
  * import YahooFinance from "yahoo-finance2";
@@ -558,6 +562,9 @@ export interface ScreenerQuote {
   preMarketPrice?: number; // 2.87
 }
 
+/**
+ * Predefined stock screener modules for common screening strategies.
+ */
 export type PredefinedScreenerModules =
   | "aggressive_small_caps"
   | "conservative_foreign_funds"
@@ -589,18 +596,36 @@ export interface ScreenerOptions {
   count?: number;
 }
 
+/**
+ * Advanced stock screening and filtering with predefined strategies (e.g. daily gainers, etc)
+ *
+ * **See the {@link [modules/screener] screener module} docs for examples and more.**
+ * @see {@link [modules/screener] screener module} docs for examples and more.
+ */
 export default function screener(
   this: ModuleThis,
   queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,
   moduleOptions?: ModuleOptionsWithValidateTrue,
 ): Promise<ScreenerResult>;
 
+/**
+ * Advanced stock screening and filtering with predefined strategies (e.g. daily gainers, etc)
+ *
+ * **See the {@link [modules/screener] screener module} docs for examples and more.**
+ * @see {@link [modules/screener] screener module} docs for examples and more.
+ */
 export default function screener(
   this: ModuleThis,
   queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,
   moduleOptions?: ModuleOptionsWithValidateFalse,
 ): Promise<unknown>;
 
+/**
+ * Advanced stock screening and filtering with predefined strategies (e.g. daily gainers, etc)
+ *
+ * **See the {@link [modules/screener] screener module} docs for examples and more.**
+ * @see {@link [modules/screener] screener module} docs for examples and more.
+ */
 export default function screener(
   this: ModuleThis,
   queryOptionsOverrides?: PredefinedScreenerModules | ScreenerOptions,

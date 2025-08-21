@@ -90,7 +90,9 @@ export class YahooFinance {
 type ModuleMethod = (...args: any[]) => any;
 
 interface CreateYahooFinanceOptions {
+  /** The modules (`quote`, `search`, etc) to include in this YahooFinance class */
   modules: Record<string, ModuleMethod>;
+  /** The default options to use for new instances */
   _opts?: YahooFinanceOptions;
 }
 
@@ -123,11 +125,11 @@ export type { YahooFinanceOptions, YahooFinanceOptionsJSON };
  * });
  * ```
  *
- * By using only the modules you need, you'll have a small bundle size.  Just remember,
- * yahoo-finance2 is never bundled to the client (browser), so your savings will be
+ * By using only the modules you need, you'll have a small bundle size.  But remember,
+ * `yahoo-finance2` is never bundled to the client (browser), so your savings will be
  * will be marginal (e.g. a marginally faster serverless cold start time).
  *
- * @param createOpts The options to create the YahooFinance instance with.
+ * @param createOpts The {@link CreateYahooFinanceOptions} that influence the class creation.
  * @returns A {@link YahooFinance} class that you can call with `new YahooFinance()`.
  */
 export default function createYahooFinance<T extends CreateYahooFinanceOptions>(

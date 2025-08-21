@@ -633,6 +633,9 @@ const queryOptionsDefaults = {};
 /**
  * Get quote data for multiple symbols returning an array.
  *
+ * **See the {@link [modules/quote] quote module} docs for examples and more.**
+ * @see {@link [modules/quote] quote module} docs for examples and more.
+ *
  * @param query - Array of symbol strings to get quotes for
  * @param queryOptionsOverrides - Optional query configuration
  * @param moduleOptions - Optional module configuration
@@ -648,6 +651,9 @@ export default function quote(
 /**
  * Get quote data for multiple symbols returning a Map.
  *
+ * **See the {@link [modules/quote] quote module} docs for examples and more.**
+ * @see {@link [modules/quote] quote module} docs for examples and more.
+ *
  * @param query - Array of symbol strings to get quotes for
  * @param queryOptionsOverrides - Query configuration with return: "map"
  * @param moduleOptions - Optional module configuration
@@ -662,6 +668,9 @@ export default function quote(
 
 /**
  * Get quote data for multiple symbols returning an object.
+ *
+ * **See the {@link [modules/quote] quote module} docs for examples and more.**
+ * @see {@link [modules/quote] quote module} docs for examples and more.
  *
  * @param query - Array of symbol strings to get quotes for
  * @param queryOptionsOverrides - Query configuration with return: "object"
@@ -680,6 +689,9 @@ export default function quote(
 /**
  * Get quote data for a single symbol.
  *
+ * **See the {@link [modules/quote] quote module} docs for examples and more.**
+ * @see {@link [modules/quote] quote module} docs for examples and more.
+ *
  * @param query - Symbol string to get quote for
  * @param queryOptionsOverrides - Optional query configuration
  * @param moduleOptions - Optional module configuration
@@ -695,10 +707,13 @@ export default function quote(
 /**
  * Get quote data with validation disabled.
  *
+ * **See the {@link [modules/quote] quote module} docs for examples and more.**
+ * @see {@link [modules/quote] quote module} docs for examples and more.
+ *
  * @param query - Symbol string or array of symbols
  * @param queryOptionsOverrides - Optional query configuration
  * @param moduleOptions - Module configuration with validateResult: false
- * @returns Promise resolving to unvalidated data
+ * @returns Promise resolving to unvalidated data, but resembling {@linkcode Quote}.
  */
 export default function quote(
   this: ModuleThis,
