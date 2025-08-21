@@ -6,6 +6,7 @@ import autoc from "./autoc.ts";
 import chart from "./chart.ts";
 import dailyGainers from "./dailyGainers.ts";
 import dailyLosers from "./dailyLosers.ts";
+import fundamentalsTimeSeries from "./fundamentalsTimeSeries.ts";
 import historical from "./historical.ts";
 import insights from "./insights.ts";
 import options from "./options.ts";
@@ -21,6 +22,7 @@ export {
   chart,
   dailyGainers,
   dailyLosers,
+  fundamentalsTimeSeries,
   historical,
   insights,
   options,
