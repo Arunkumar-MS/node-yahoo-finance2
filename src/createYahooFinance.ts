@@ -9,6 +9,16 @@ import type {
 import yahooFinanceFetch from "./lib/yahooFinanceFetch.ts";
 import moduleExec from "./lib/moduleExec.ts";
 import Notices from "./lib/notices.ts";
+import { assertSupported } from "./lib/runtime-detect.ts";
+
+const MIN_SUPPORTED_RUNTIMES: Parameters<typeof assertSupported>[0] = {
+  node: "22.0.0",
+  deno: "2.0.0",
+  bun: "1.0.0",
+  cloudflare: {
+    requireFeatures: [],
+  },
+};
 
 /**
  * Instantiate a new YahooFinance client.
@@ -83,6 +93,19 @@ export class YahooFinance {
       // deno-lint-ignore no-explicit-any
       : (obj: any) => this._opts.logger!.info(JSON.stringify(obj, null, 2));
     // deno-coverage-ignore-stop
+
+    try {
+      assertSupported(MIN_SUPPORTED_RUNTIMES);
+    } catch (error) {
+      const warning = ". Things might break or work unexpectedly!";
+      if (error instanceof Error) {
+        this._opts.logger!.warn("[yahoo-finance2] " + error.message + warning);
+      } else {
+        this._opts.logger!.warn(
+          "[yahoo-finance2] " + JSON.stringify(error) + warning,
+        );
+      }
+    }
   }
 }
 
