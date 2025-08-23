@@ -5,7 +5,16 @@ await emptyDir("./npm");
 
 await build({
   scriptModule: "cjs",
-  entryPoints: ["./src/index.ts", "./bin/yahoo-finance.ts"],
+  entryPoints: [
+    ...Object.entries(denoJson.exports).map(([name, path]) =>
+      name === "." ? path : { name, path }
+    ),
+    {
+      kind: "bin",
+      name: "yahoo-finance",
+      path: "./bin/yahoo-finance.ts",
+    },
+  ],
   outDir: "./npm",
   test: false,
   shims: {
@@ -44,9 +53,6 @@ await build({
     "engines": {
       "node": ">=20.0.0",
     },
-    "bin": {
-      "yahoo-finance": "bin/yahoo-finance.mjs",
-    },
     dependencies: {
       "tough-cookie": denoJson.imports["tough-cookie"],
       "tough-cookie-file-store": denoJson.imports["tough-cookie-file-store"],
@@ -60,18 +66,7 @@ await build({
 
   postBuild() {
     // steps to run after building and before running the tests
-    const encoder = new TextEncoder();
-
-    Deno.mkdirSync("npm/bin");
-    Deno.writeFileSync(
-      "npm/bin/yahoo-finance.mjs",
-      encoder.encode(
-        "#!/usr/bin/env node\n" +
-          'import "../esm/bin/yahoo-finance.js";',
-      ),
-    );
-    Deno.chmodSync("npm/bin/yahoo-finance.mjs", 0o755);
-
+    Deno.chmodSync("npm/esm/bin/yahoo-finance.js", 0o755);
     Deno.copyFileSync("LICENSE", "npm/LICENSE");
     Deno.copyFileSync("README.md", "npm/README.md");
   },

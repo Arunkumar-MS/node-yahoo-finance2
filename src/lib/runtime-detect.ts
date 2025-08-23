@@ -26,38 +26,13 @@ export interface SupportCheckResult {
 export function detectRuntime(): RuntimeInfo {
   const info: RuntimeInfo = { runtime: "unknown", version: null, details: {} };
 
-  // Deno first (it can polyfill `process` for npm compat)
-  if (
-    typeof globalThis.Deno === "object" &&
-    (globalThis as any).Deno?.version?.deno
-  ) {
-    const deno = (globalThis as any).Deno;
-    info.runtime = "deno";
-    info.version = String(deno.version.deno);
-    info.details = {
-      v8: deno.version.v8,
-      typescript: deno.version.typescript,
-      os: deno.build?.os,
-      arch: deno.build?.arch,
-    };
-    return info;
-  }
+  const deno = (globalThis as any).Deno;
+  const proc = (globalThis as any).process;
+  const bun = (globalThis as any).Bun;
 
-  // Bun next
-  if (
-    typeof (globalThis as any).Bun === "object" &&
-    typeof (globalThis as any).Bun?.version === "string"
-  ) {
-    const bun = (globalThis as any).Bun;
-    info.runtime = "bun";
-    info.version = bun.version;
-    info.details = {
-      bunRevision: bun.revision ?? null,
-      nodeCompat: (typeof (globalThis as any).process === "object") &&
-        !!(globalThis as any).process?.versions?.node,
-    };
-    return info;
-  }
+  // Heuristic: real Deno exposes build info alongside a deno version.
+  const isRealDeno = (d: any): boolean =>
+    !!(d && d.version?.deno && d.build?.os && d.build?.arch);
 
   // Cloudflare Workers (workerd)
   const ua = (typeof globalThis.navigator === "object" &&
@@ -88,12 +63,52 @@ export function detectRuntime(): RuntimeInfo {
     info.details = { userAgent: ua || null, heuristic: true };
     return info;
   }
-  // Node
-  if (
-    typeof (globalThis as any).process === "object" &&
-    (globalThis as any).process?.versions?.node
-  ) {
-    const proc = (globalThis as any).process;
+
+  // Bun
+  if (typeof bun === "object" && typeof bun?.version === "string") {
+    info.runtime = "bun";
+    info.version = bun.version;
+    info.details = {
+      bunRevision: bun.revision ?? null,
+      nodeCompat: (typeof proc === "object") && !!proc?.versions?.node,
+    };
+    return info;
+  }
+
+  // Prefer Node when process.versions.node exists but process.versions.deno does not.
+  const hasNode = typeof proc === "object" && !!proc?.versions?.node;
+  const nodeDominant = hasNode && !proc?.versions?.deno;
+
+  if (nodeDominant) {
+    info.runtime = "node";
+    info.version = String(proc.versions.node);
+    info.details = {
+      v8: proc.versions.v8,
+      arch: proc.arch,
+      platform: proc.platform,
+      denoShimDetected: typeof deno === "object",
+    };
+    return info;
+  }
+
+  // Prefer "real Deno"; otherwise Deno compat in Deno will still identify as Deno.
+  const hasDeno = typeof deno === "object" && !!deno?.version?.deno;
+
+  if (hasDeno && (!hasNode || isRealDeno(deno) || proc?.versions?.deno)) {
+    info.runtime = "deno";
+    info.version = String(deno.version.deno);
+    info.details = {
+      v8: deno.version.v8,
+      typescript: deno.version.typescript,
+      os: deno.build?.os,
+      arch: deno.build?.arch,
+      nodeCompat: !!proc?.versions?.deno,
+    };
+    return info;
+  }
+
+  // Fallback Node
+  if (hasNode) {
     info.runtime = "node";
     info.version = String(proc.versions.node);
     info.details = {
@@ -103,6 +118,7 @@ export function detectRuntime(): RuntimeInfo {
     };
     return info;
   }
+
   return info;
 }
 
