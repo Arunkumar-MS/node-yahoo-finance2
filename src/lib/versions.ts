@@ -35,3 +35,8 @@ export async function versionCheck() {
     isLatest: latestVersion === pkg.version,
   });
 }
+
+export function _clearCache() {
+  latestVersion = null;
+  versionCheckResult = null;
+}

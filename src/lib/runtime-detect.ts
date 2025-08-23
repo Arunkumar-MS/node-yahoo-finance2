@@ -1,3 +1,4 @@
+// deno-coverage-ignore-file
 // deno-lint-ignore-file no-explicit-any
 type RuntimeName = "node" | "deno" | "bun" | "cloudflare" | "unknown";
 
