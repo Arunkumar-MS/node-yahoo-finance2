@@ -8,7 +8,7 @@ describe("versions", () => {
   const origFetch = globalThis.fetch;
 
   beforeEach(() => {
-    if (origFetch) globalThis.fetch = origFetch;
+    globalThis.fetch = origFetch;
     _clearCache();
   });
 
